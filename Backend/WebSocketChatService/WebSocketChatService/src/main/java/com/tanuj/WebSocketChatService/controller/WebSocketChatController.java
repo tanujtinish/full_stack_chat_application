@@ -10,16 +10,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
-import com.tanuj.WebSocketChatService.service.ChatConversationService;
 import com.tanuj.WebSocketChatService.service.MessageService;
 
-import com.tanuj.WebSocketChatService.model.Message;
+import java.util.List;
 
+import com.tanuj.WebSocketChatService.model.Message;
+import com.tanuj.WebSocketChatService.model.DTO.MessageDTO;
+
+@Controller
 public class WebSocketChatController {
     
-    
-    @Autowired 
-    private ChatConversationService chatConversationService;
 
     @Autowired 
     private MessageService messageService;
@@ -30,13 +30,12 @@ public class WebSocketChatController {
     @MessageMapping("/chatApp/send")
     public void sendMessage(@Payload MessageDTO messageDTO) {
         
-        Message messageSent = messageService.sendMessage(messageDTO);
-        MessageDTO.setTimestamp(MessageDTO.getTimestamp());
+        messageService.sendMessage(messageDTO);
 
         simpMessagingTemplate.convertAndSendToUser(
-            message.getRecieverId(),
+            messageDTO.getRecieverId(),
             "/chatMessageQueue",
-            MessageDTO);
+            messageDTO);
     }
 
     @GetMapping("/chatApp/{senderId}/{recieverId}/count")
