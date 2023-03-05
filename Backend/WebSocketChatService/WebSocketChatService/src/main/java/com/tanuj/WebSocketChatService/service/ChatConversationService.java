@@ -16,46 +16,33 @@ public class ChatConversationService {
 
     public String createAndGetCoversationId(String senderId, String recieverId) {
 
-        Optional<ChatConversation> conversation = ChatConversationRepository.findBySenderIdAndRecieverId(senderId, recipientId);
+        Optional<ChatConversation> conversation = chatConversationRepository.findBySenderIdAndRecieverId(senderId, recieverId);
 
         if(conversation.isPresent()){
-            return conversation.get();
+            return conversation.get().getConversationId();
         }
         else{
-            String coversationId = senderId + "_" + recieverId;
+            String conversationId = senderId + "_" + recieverId;
 
             ChatConversation senderRecieverChat = ChatConversation
                 .builder()
-                .coversationId(coversationId)
+                .conversationId(conversationId)
                 .senderId(senderId)
                 .recieverId(recieverId)
                 .build();
-                ChatConversationRepository.save(coversationId);
+            chatConversationRepository.save(senderRecieverChat);
 
             ChatConversation recieverSenderChat = ChatConversation
                 .builder()
-                .coversationId(coversationId)
+                .conversationId(conversationId)
                 .senderId(recieverId)
                 .recieverId(senderId)
                 .build();
-                ChatConversationRepository.save(recieverSenderChat);
+            chatConversationRepository.save(recieverSenderChat);
 
-            return coversationId;
+            return conversationId;
         }
 
    }
-
-    public Optional<String> getConversationId(String senderId, String recieverId) {
-        
-
-        Optional<ChatConversation> conversation = ChatConversationRepository.findBySenderIdAndRecieverId(senderId, recipientId);
-
-        if(conversation.isPresent()){
-            return conversation.get();
-        }
-        else{
-            return  Optional.empty();
-        }
-    }
 
 }
