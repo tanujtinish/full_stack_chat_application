@@ -59,7 +59,7 @@ public class MessageService {
     //Read
     public long countUnreadMessages(String senderId, String recieverId) {
 
-        long unreadMessages = messageRepository.countBySenderIdAndRecieverIdIdAndStatus(senderId, recieverId, MessageState.SENT_UNREAD);
+        long unreadMessages = messageRepository.countBySenderIdAndRecieverIdAndState(senderId, recieverId, MessageState.SENT_UNREAD);
 
         return unreadMessages;
     }
