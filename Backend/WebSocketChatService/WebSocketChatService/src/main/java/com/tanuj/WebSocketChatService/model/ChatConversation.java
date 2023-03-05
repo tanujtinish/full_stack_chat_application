@@ -1,4 +1,4 @@
-package com.tanuj.webSocketManager.model;
+package com.tanuj.WebSocketChatService.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

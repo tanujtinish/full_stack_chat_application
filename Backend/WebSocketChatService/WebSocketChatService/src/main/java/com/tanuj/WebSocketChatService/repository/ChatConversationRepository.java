@@ -1,6 +1,6 @@
-package com.tanuj.webSocketManager.repository;
+package com.tanuj.WebSocketChatService.repository;
 
-import com.tanuj.webSocketManager.model.ChatConversation;
+import com.tanuj.WebSocketChatService.model.ChatConversation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;

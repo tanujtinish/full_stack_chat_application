@@ -1,9 +1,9 @@
-package main.java.com.tanuj.WebSocketChatService.service;
+package com.tanuj.WebSocketChatService.service;
 
 import java.util.Optional;
 
-import com.tanuj.webSocketManager.repository.ChatConversationRepository;
-import com.tanuj.webSocketManager.model.ChatConversation;
+import com.tanuj.WebSocketChatService.repository.ChatConversationRepository;
+import com.tanuj.WebSocketChatService.model.ChatConversation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

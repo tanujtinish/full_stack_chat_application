@@ -1,4 +1,4 @@
-package com.tanuj.webSocketManager.model.enums;
+package com.tanuj.WebSocketChatService.model.enums;
 
 public enum MessageState {
     SENT_UNREAD, READ
