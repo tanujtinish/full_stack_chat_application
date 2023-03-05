@@ -38,6 +38,8 @@ public class MessageService {
                 .conversationId(coversationId)
                 .messageString(messageDTO.getMessageString())
                 .timestamp(messageDTO.getTimestamp())
+                .senderId(messageDTO.getSenderId())
+                .recieverId(messageDTO.getRecieverId())
                 .build();
 
         return message;
