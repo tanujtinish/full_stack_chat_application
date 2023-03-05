@@ -1,4 +1,4 @@
-package main.java.com.tanuj.WebSocketChatService.controller;
+package com.tanuj.WebSocketChatService.controller;
 
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -10,10 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
-import com.tanuj.webSocketManager.service.ChatConversationService;
-import com.tanuj.webSocketManager.service.MessageService;
+import com.tanuj.WebSocketChatService.service.ChatConversationService;
+import com.tanuj.WebSocketChatService.service.MessageService;
 
-import com.tanuj.webSocketManager.model.Message;
+import com.tanuj.WebSocketChatService.model.Message;
 
 public class WebSocketChatController {
     

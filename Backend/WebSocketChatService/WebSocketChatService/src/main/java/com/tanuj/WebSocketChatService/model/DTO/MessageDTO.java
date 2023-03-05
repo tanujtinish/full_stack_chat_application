@@ -1,4 +1,4 @@
-package main.java.com.tanuj.WebSocketChatService.model.DTO;
+package com.tanuj.WebSocketChatService.model.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import java.util.Date;
 
-import com.tanuj.webSocketManager.model.enums.MessageState;
+import com.tanuj.WebSocketChatService.model.enums.MessageState;
 
 @Data
 @AllArgsConstructor

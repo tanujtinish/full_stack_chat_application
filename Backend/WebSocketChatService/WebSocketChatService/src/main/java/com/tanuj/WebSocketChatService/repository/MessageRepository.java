@@ -1,7 +1,7 @@
-package com.tanuj.webSocketManager.repository;
+package com.tanuj.WebSocketChatService.repository;
 
-import com.tanuj.webSocketManager.model.Message;
-import com.tanuj.webSocketManager.model.enums.MessageState;
+import com.tanuj.WebSocketChatService.model.Message;
+import com.tanuj.WebSocketChatService.model.enums.MessageState;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;

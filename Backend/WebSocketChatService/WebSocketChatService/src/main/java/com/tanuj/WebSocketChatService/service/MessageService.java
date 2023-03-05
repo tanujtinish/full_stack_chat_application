@@ -1,10 +1,10 @@
-package main.java.com.tanuj.WebSocketChatService.service;
+package com.tanuj.WebSocketChatService.service;
 
 import java.util.Optional;
 
-import com.tanuj.webSocketManager.repository.MessageRepository;
-import com.tanuj.webSocketManager.model.Message;
-import com.tanuj.webSocketManager.model.enums.MessageState;
+import com.tanuj.WebSocketChatService.repository.MessageRepository;
+import com.tanuj.WebSocketChatService.model.Message;
+import com.tanuj.WebSocketChatService.model.enums.MessageState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
