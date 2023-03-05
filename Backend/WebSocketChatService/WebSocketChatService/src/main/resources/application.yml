@@ -1,0 +1,6 @@
+
+spring:
+  data:
+    mongodb:
+      database: web_socket_chat_app
+      port: 27018
