@@ -22,4 +22,6 @@ public class Message {
    private String messageString;
    private Date timestamp;
    private MessageState state;
+   private String senderId;
+   private String recieverId;
 }
