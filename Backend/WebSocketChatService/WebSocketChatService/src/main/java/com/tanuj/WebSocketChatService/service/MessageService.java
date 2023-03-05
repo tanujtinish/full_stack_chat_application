@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ChatConversationService {
+public class MessageService {
     
     @Autowired 
     private MessageRepository messageRepository;
@@ -20,8 +20,28 @@ public class ChatConversationService {
     @Autowired 
     private MongoOperations mongoOperations;
 
+    private Message messageDtoToMessage(MessageDTO messageDTO){
+
+        String coversationId = chatConversationService.createAndGetCoversationId(messageDTO.getSenderId(), messageDTO.getRecieverId());
+
+        messageDTO.setChatId(chatId.get());
+
+        Message message = ChatConversation
+                .builder()
+                .coversationId(coversationId)
+                .messageString(MessageDTO.getMessageString())
+                .timestamp(MessageDTO.getTimestamp())
+                .build();
+
+        return message;
+
+    }
+
     //Create
-    public Message saveMessage(Message message) {
+    public Message sendMessage(MessageDTO messageDTO) {
+
+        Message message = messageDtoToMessage(messageDTO);
+
         message.setStatus(MessageState.SENT_UNREAD);
         repository.save(message);
         return message;
@@ -42,9 +62,7 @@ public class ChatConversationService {
 
         List<Message> messages = messageRepository.findByConversationId(coversationId);
 
-        if(messages.size() > 0) {
-            updateStatuses(senderId, recieverId, MessageState.READ);
-        }
+        markRead(senderId, recieverId, MessageState.READ);
 
         return messages;
     }
