@@ -2,5 +2,7 @@
 spring:
   data:
     mongodb:
-      database: web_socket_chat_app
+      database: admin
       port: 27018
+      username: user
+      password: pass
