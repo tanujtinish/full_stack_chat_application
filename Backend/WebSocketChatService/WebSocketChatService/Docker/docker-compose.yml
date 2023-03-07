@@ -3,7 +3,7 @@ version: '3'
 services:
   websocket-chat-service:
     build:
-      context: .
+      context: ../target/
       dockerfile: Dockerfile
     image: websocket-chat-service:latest
     container_name: websocket-chat-service
