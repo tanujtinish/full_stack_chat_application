@@ -81,5 +81,62 @@ public class AuthenticationController {
             .body(userInfoDTO);
     }
 
-    
+    @PostMapping("/sign_up")
+    public ResponseEntity<?> signUpUser(@Valid @RequestBody SignUpDTO singUpDto) {
+        if (userRepository.existsByUsername(singUpDto.getUsername())) {
+        return ResponseEntity.badRequest().body(new MessageDTO("Error: Username is already taken!"));
+        }
+
+        if (userRepository.existsByEmail(singUpDto.getEmail())) {
+        return ResponseEntity.badRequest().body(new MessageDTO("Error: Email is already in use!"));
+        }
+
+        Users user = new Users(singUpDto.getUsername(),
+                            singUpDto.getEmail(),
+                            encoder.encode(singUpDto.getPassword()));
+
+        Set<String> strRoles = singUpDto.getRoles();
+        Set<Roles> roles = new HashSet<>();
+
+        if (strRoles == null) {
+            Roles userRoles = roleRepository.findByName("ROLE_USER")
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(userRoles);
+        } else {
+            strRoles.forEach(role -> {
+                switch (role) {
+                    case "admin":
+                    Roles adminRole = roleRepository.findByName("ROLE_ADMIN")
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    roles.add(adminRole);
+
+                    break;
+                    case "mod":
+                    Roles modRole = roleRepository.findByName("ROLE_MODERATOR")
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    roles.add(modRole);
+
+                    break;
+                    default:
+                    Roles userRole = roleRepository.findByName("ROLE_USER")
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    roles.add(userRole);
+                }
+            });
+        }
+
+        user.setRoles(roles);
+        userRepository.save(user);
+
+        return ResponseEntity.ok(new MessageDTO("User registered successfully!"));
+    }
+
+    @PostMapping("/log_out")
+    public ResponseEntity<?> logoutUser() {
+        
+        ResponseCookie cookie = jwtService.createCookieWithNullToken();
+
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
+            .body(new MessageDTO("You've been signed out!"));
+    }
 }
