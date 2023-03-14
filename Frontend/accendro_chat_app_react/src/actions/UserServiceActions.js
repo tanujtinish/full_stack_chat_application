@@ -1,6 +1,6 @@
-import {SIGN_UP_SUCCESS, SIGN_UP_FAIL, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_SUCCESS, LOGOUT_FAIL, UNSET_MESSAGE} from "./user_service_action_types";
+import {SIGN_UP_SUCCESS, SIGN_UP_FAIL, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_SUCCESS, LOGOUT_FAIL, UNSET_MESSAGE, GET_USERS_SUCCESS, GET_USERS_FAIL} from "./user_service_action_types";
 
-import {login_api_call, signup_api_call, sign_out_api_call} from "../Utils/UserServiceApiUtils";
+import {login_api_call, signup_api_call, sign_out_api_call, get_users_api_call} from "../Utils/UserServiceApiUtils";
 
 export const signupSuccessAction = (message) => ({
   type: SIGN_UP_SUCCESS,
@@ -29,6 +29,16 @@ export const logOutSuccessAction = (message) => ({
 
 export const logOutFailAction = (message) => ({
   type: LOGOUT_FAIL,
+  payload: {message},
+});
+
+export const getUsersSuccessAction = (all_users) => ({
+  type: GET_USERS_SUCCESS,
+  payload: {all_users: all_users},
+});
+
+export const getUsersFailAction = (message) => ({
+  type: GET_USERS_FAIL,
   payload: {message},
 });
 
@@ -102,6 +112,29 @@ export const sign_out = () => (dispatch) => {
         error.toString();
 
       dispatch(logOutFailAction(message));
+
+      return Promise.reject();
+    }
+  );
+};
+
+export const get_users = () => (dispatch) => {
+
+  return get_users_api_call().then(
+    (usersListResponse) => {
+      dispatch(getUsersSuccessAction(usersListResponse));
+
+      return Promise.resolve();
+    },
+    (error) => {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      dispatch(getUsersFailAction(message));
 
       return Promise.reject();
     }
