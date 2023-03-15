@@ -51,7 +51,7 @@ const Login = (props) => {
   const [loading, setLoading] = useState(false);
   const [successful, setSuccessful] = useState(false);
 
-  const {message: message } = useSelector(state => state.UserServiceReducer);
+  const {login_message: login_message } = useSelector(state => state.UserServiceReducer);
 
   const dispatch = useDispatch();
   
@@ -86,7 +86,7 @@ const Login = (props) => {
         })
         .catch(() => {
           setLoading(false);
-          setSuccessful(true);
+          setSuccessful(false);
         });
     } else {
       setLoading(false);
@@ -124,10 +124,10 @@ const Login = (props) => {
               )}
               <span>Login</span>
           </button>
-          {message && (
+          {login_message && (
             <div className="form-group">
                 <div className={ successful ? "alert alert-success" : "alert alert-danger" } role="alert">
-                {message}
+                {login_message}
                 </div>
             </div>
           )}
