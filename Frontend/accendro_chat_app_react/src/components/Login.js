@@ -54,11 +54,6 @@ const Login = (props) => {
   const {login_message: login_message } = useSelector(state => state.UserServiceReducer);
 
   const dispatch = useDispatch();
-  
-  // useEffect(() => {
-  //   console.log("Login rerenders");
-  // });
-
 
   const onChangeUsername = (e) => {
     const username = e.target.value;

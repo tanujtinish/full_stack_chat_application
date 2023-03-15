@@ -15,10 +15,6 @@ const LoginRegister = (props) => {
     const [isRightPanelActive, setIsRightPanelActive] = useState(false);
     const classNames =  `${isRightPanelActive ? 'container right-panel-active' : 'container'}`;
 
-    // useEffect(() => {
-    //     console.log("LoginRegister rerenders");
-    // });
-
     const {isLoggedIn: isLoggedIn } = useSelector(state => state.UserServiceReducer);
 
     const handleSignUp = (e) => {
@@ -34,7 +30,6 @@ const LoginRegister = (props) => {
     }
 
     if (isLoggedIn) {
-        console.log("in login_reg: " + isLoggedIn);
         return <Navigate to="/chat" />;
     }
     
