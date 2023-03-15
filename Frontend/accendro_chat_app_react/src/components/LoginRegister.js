@@ -34,7 +34,8 @@ const LoginRegister = (props) => {
     }
 
     if (isLoggedIn) {
-        return <Navigate to="/profile" />;
+        console.log("in login_reg: " + isLoggedIn);
+        return <Navigate to="/chat" />;
     }
     
     return (
@@ -42,16 +43,16 @@ const LoginRegister = (props) => {
             <Login/>
             <Register/>
             <div className="overlay-container">
-                <div class="overlay">
-                <div class="overlay-panel overlay-left">
+                <div className="overlay">
+                <div className="overlay-panel overlay-left">
                     <h1>Welcome Back!</h1>
                     <p>To keep connected with us please login with your personal info</p>
-                    <button class="ghost" id="signIn" onClick={handleSignIn}>Sign In</button>
+                    <button className="ghost" id="signIn" onClick={handleSignIn}>Sign In</button>
                 </div>
-                <div class="overlay-panel overlay-right">
+                <div className="overlay-panel overlay-right">
                     <h1>Hello, Friend!</h1>
                     <p>Enter your personal details and start journey with us</p>
-                    <button class="ghost" id="signUp" onClick={handleSignUp}>Sign Up</button>
+                    <button className="ghost" id="signUp" onClick={handleSignUp}>Sign Up</button>
                 </div>
                 </div>
             </div>
