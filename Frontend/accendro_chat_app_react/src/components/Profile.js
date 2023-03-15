@@ -6,7 +6,7 @@ const Profile = () => {
   const { user: currentUser, message: message } = useSelector((state) => state.UserServiceReducer);
 
   if (!currentUser) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login_register" />;
   }
 
   return (
