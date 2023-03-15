@@ -10,7 +10,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isLoggedIn: false,
-        signup_message: payload.message,
+        signup_message: payload.message.message,
       };
     case SIGN_UP_FAIL:
       return {
@@ -37,7 +37,7 @@ export default function (state = initialState, action) {
         ...state,
         isLoggedIn: false,
         userInfo: null,
-        logout_message: payload.message,
+        logout_message: payload.message.message,
         jwt_web_token: "",
       };
     case LOGOUT_FAIL:
