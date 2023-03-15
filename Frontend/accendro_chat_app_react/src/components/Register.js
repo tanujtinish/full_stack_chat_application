@@ -101,7 +101,7 @@ const Register = () => {
   };
 
   return (
-    <div class="form-container sign-up-container">
+    <div className="form-container sign-up-container">
       <Form onSubmit={handleRegister} ref={form}>
         <h1>Create Account</h1>
         <Input
