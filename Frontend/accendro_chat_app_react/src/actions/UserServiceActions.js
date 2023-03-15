@@ -1,6 +1,7 @@
 import {SIGN_UP_SUCCESS, SIGN_UP_FAIL, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_SUCCESS, LOGOUT_FAIL, UNSET_MESSAGE, GET_USERS_SUCCESS, GET_USERS_FAIL} from "./user_service_action_types";
 
 import {login_api_call, signup_api_call, sign_out_api_call, get_users_api_call} from "../Utils/UserServiceApiUtils";
+import {count_new_messgaes_api_call} from "../Utils/ChatServiveApiUtils";
 
 export const signupSuccessAction = (message) => ({
   type: SIGN_UP_SUCCESS,
@@ -118,10 +119,18 @@ export const sign_out = () => (dispatch) => {
   );
 };
 
-export const get_users = () => (dispatch) => {
+export const get_users = (currentUser) => (dispatch) => {
 
   return get_users_api_call().then(
     (usersListResponse) => {
+
+      usersListResponse.map((user) => {
+        count_new_messgaes_api_call(user.id, currentUser.id).then((count) => {
+          user.newMessages = count;
+          return user;
+        })
+      })
+      //id, username, email, roles, newMessages
       dispatch(getUsersSuccessAction(usersListResponse));
 
       return Promise.resolve();
