@@ -7,25 +7,19 @@ import "./App.css";
 import LoginRegister from "./components/LoginRegister";
 import Profile from "./components/Profile";
 import Header from "./components/Header";
+import Chat from "./components/Chat";
 
 const App = () => {
   
 
   return (
     <div>
-
-      {/* <Header/> */}
-
-      <div className="container mt-3">
         <Routes>
-          <Route path="/" element={<LoginRegister />} />
+          <Route path="/" element={<Chat/>} />
           <Route path="/login_register" element={<LoginRegister />} />
           <Route path="/profile" element={<Profile />} />
-          
+          <Route path="/chat" element={<Chat/>} />
         </Routes>
-      </div>
-
-      {/* <AuthVerify logOut={logOut}/> */}
     </div>
   );
 };
