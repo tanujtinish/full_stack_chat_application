@@ -119,10 +119,10 @@ const Login = (props) => {
           />
           <a href="#">Forgot your password?</a>
           <button disabled={loading}>
-              {loading && (
+              {loading ? 
                   <span className="spinner-border spinner-border-sm"></span>
-              )}
-              <span>Login</span>
+                  : <span>Login</span>
+              }
           </button>
           {login_message && (
             <div className="form-group">

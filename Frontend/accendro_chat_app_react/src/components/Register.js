@@ -132,10 +132,10 @@ const Register = () => {
             placeholder="password"
         />
         <button disabled={loading}>
-            {loading && (
+            {loading ? 
                 <span className="spinner-border spinner-border-sm"></span>
-            )}
-            <span>Sign Up!</span>
+                : <span>Sign Up!</span>
+            }
         </button>
         {signup_message && (
           <div className="form-group">
