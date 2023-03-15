@@ -61,7 +61,7 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
 
 
-  const { message: message } = useSelector(state => state.UserServiceReducer);
+  const { signup_message: signup_message } = useSelector(state => state.UserServiceReducer);
   const dispatch = useDispatch();
 
   const onChangeUsername = (e) => {
@@ -137,10 +137,10 @@ const Register = () => {
             )}
             <span>Sign Up!</span>
         </button>
-        {message && (
+        {signup_message && (
           <div className="form-group">
               <div className={ successful ? "alert alert-success" : "alert alert-danger" } role="alert">
-              {message}
+              {signup_message}
               </div>
           </div>
         )}
