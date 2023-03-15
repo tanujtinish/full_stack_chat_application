@@ -81,8 +81,7 @@ const Login = (props) => {
     if (checkBtn.current.context._errors.length === 0) {
       dispatch(login(username, password))
         .then(() => {
-          navigate("/profile");
-          window.location.reload();
+          
         })
         .catch(() => {
           setLoading(false);
@@ -95,7 +94,7 @@ const Login = (props) => {
   };
 
   return (
-      <div class="form-container sign-in-container">
+      <div className="form-container sign-in-container">
         <Form onSubmit={handleLogin} ref={form}>
           <h1>Sign in</h1>
           <span>or use your account</span>
