@@ -53,7 +53,6 @@ export const signup = (username, email, password) => (dispatch) => {
 
   return signup_api_call(username, email, password).then(
     (messageResponse) => {
-      
       dispatch(signupSuccessAction(messageResponse));
 
       return Promise.resolve();
