@@ -84,9 +84,9 @@ const Chat = () => {
     stompClient.connect({}, onConnected, onError);
   };
 
+  const navigate = useNavigate();
   useEffect(() => {
     if(!isLoggedIn){
-      const navigate = useNavigate();
       navigate('/login_register');
     }
     connect();
@@ -95,9 +95,9 @@ const Chat = () => {
 
   useEffect(() => {
     if (activeContact === undefined) return;
-    get_messages_api_call(activeContact.id, userInfo.id).then((msgs) =>
+    get_messages_api_call(activeContact.id, userInfo.id).then((msgs) =>{
       setMessages(msgs)
-    );
+    });
     get_users(userInfo);
   }, [activeContact]);
 
@@ -105,7 +105,7 @@ const Chat = () => {
     if (msg.trim() !== "") {
       const message = {
         senderId: userInfo.id,
-        recipientId: activeContact.id,
+        recieverId: activeContact.id,
         messageString: msg,
         timestamp: new Date(),
       };

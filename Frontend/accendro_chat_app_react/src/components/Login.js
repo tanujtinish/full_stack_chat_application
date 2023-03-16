@@ -6,6 +6,7 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import css from "../css/Login.css";
 import {login_api_call} from "../Utils/UserServiceApiUtils";
+import { useNavigate } from "react-router-dom";
 
 import { loginSuccessAction } from "../actions/UserServiceActions";
 
@@ -86,6 +87,7 @@ const Login = () => {
     );
   };
 
+  const navigate = useNavigate();
   const handleLogin = (e) => {
     e.preventDefault();
 
@@ -97,7 +99,7 @@ const Login = () => {
     if (checkBtn.current.context._errors.length === 0) {
       dispatch(loginUtil(username, password))
         .then(() => {
-          
+          navigate('/chat');
         })
         .catch(() => {
           setLoading(false);
