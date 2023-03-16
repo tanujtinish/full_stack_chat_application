@@ -69,7 +69,7 @@ public class MessageService {
         Criteria quetyCriteria = Criteria.where("recieverId").is(recieverId).and("senderId").is(senderId);
         Query query = new Query(quetyCriteria);
 
-        Update update = Update.update("status", MessageState.READ);
+        Update update = Update.update("state", MessageState.READ);
         mongoOperations.updateMulti(query, update, Message.class);
     }
 
@@ -77,10 +77,9 @@ public class MessageService {
     public List<Message> findAllConversationMessages(String senderId, String recieverId) {
 
         String coversationId = chatConversationService.createAndGetCoversationId(senderId, recieverId);
-
-        List<Message> messages = messageRepository.findByConversationId(coversationId);
-
+        
         markRead(senderId, recieverId);
+        List<Message> messages = messageRepository.findByConversationId(coversationId);
 
         return messages;
     }
