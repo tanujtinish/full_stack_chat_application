@@ -3,7 +3,7 @@ import {CHAT_SERVICE_BASE_API_URL} from "../APIS/BaseAPIConstanats"
 
 export function count_new_messgaes_api_call(senderId, recieverId){
 
-    return axios.get(CHAT_SERVICE_BASE_API_URL + "/" + senderId + "/" + recieverId + "/count")
+    return axios.get(CHAT_SERVICE_BASE_API_URL + senderId + "/" + recieverId + "/count")
     .then((res) => {
       return res.data;
     });
@@ -19,7 +19,7 @@ export function get_messages_api_call(senderId, recieverId){
   // private String senderId;
   // private String recieverId;
   
-    return axios.get(CHAT_SERVICE_BASE_API_URL + "/" + senderId + "/" + recieverId + "/getMessages")
+    return axios.get(CHAT_SERVICE_BASE_API_URL + senderId + "/" + recieverId + "/getMessages")
     .then((res) => {
       return res.data;
     });
