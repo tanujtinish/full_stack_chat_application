@@ -15,7 +15,6 @@ const Chat = (props) => {
 
   const { isLoggedIn: isLoggedIn } = useSelector((state) => state.UserServiceReducer);
 
-  const {all_users: contacts } = useSelector(state => state.UserServiceReducer);
   const {userInfo: userInfo } = useSelector(state => state.UserServiceReducer);
 
   const [get_users_api_message, setGet_users_api_message] = useState("");
@@ -153,8 +152,9 @@ const Chat = (props) => {
         <div id="search" />
         <div id="contacts">
           <ul>
-            {(contacts == null ? [] : contacts).map((contact) => (
+            {(all_users == null ? [] : all_users).map((contact) => (
               <li
+                key = {contact.id}
                 onClick={() => setActiveContact(contact)}
                 class={
                   activeContact && contact.id === activeContact.id
