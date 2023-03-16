@@ -34,7 +34,7 @@ const Chat = (props) => {
   
   const onConnected = () => {
     stompClient.subscribe(
-      "/chatApp/send/" + userInfo.id + "/chatMessageQueue",
+      "/user_messages_topic/" + userInfo.id + "/chatMessageQueue",
       onMessageReceived
     );
   };
@@ -72,7 +72,7 @@ const Chat = (props) => {
         messageString: msg,
         timestamp: new Date(),
       };
-      stompClient.send("/chatApp/send", {}, JSON.stringify(message));
+      stompClient.send("/chat_app/chatApp/send", {}, JSON.stringify(message));
 
       const newMessages = [...messages];
       newMessages.push(message);
