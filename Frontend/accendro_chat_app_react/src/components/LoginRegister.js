@@ -6,7 +6,7 @@ import Register from "./Register"
 import Login from "./Login"
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Navigate  } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 import css from "../css/LoginRegister.css";
 
@@ -29,9 +29,10 @@ const LoginRegister = (props) => {
         setIsRightPanelActive(false);
     }
 
-    if (isLoggedIn) {
-        return <Navigate to="/chat" />;
-    }
+    useEffect(() => {
+        const history = useHistory();
+        history.push("/chat");
+    }, []);
     
     return (
         <div className={classNames} id="container">
