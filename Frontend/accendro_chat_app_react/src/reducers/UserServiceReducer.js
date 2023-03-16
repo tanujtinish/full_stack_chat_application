@@ -1,6 +1,6 @@
-import {LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_SUCCESS, LOGOUT_FAIL, UNSET_MESSAGE, GET_USERS_SUCCESS, GET_USERS_FAIL} from "../actions/user_service_action_types";
+import {LOGIN_SUCCESS, LOGOUT_SUCCESS, LOGOUT_FAIL, UNSET_MESSAGE, GET_USERS_SUCCESS, GET_USERS_FAIL} from "../actions/user_service_action_types";
 
-const initialState = { isLoggedIn: false, userInfo: {id:-1, username:""}, jwt_web_token:"", login_message: "", logout_message: "", get_users_message:"", all_users: [] };
+const initialState = { isLoggedIn: false, userInfo: {id:-1, username:""}, jwt_web_token:"", logout_message: "", get_users_message:"", all_users: [] };
 
 export default function (state = initialState, action) {
   const { type, payload } = action;
@@ -12,13 +12,6 @@ export default function (state = initialState, action) {
         isLoggedIn: true,
         userInfo: payload.userInfo,
         jwt_web_token: payload.jwt_web_token,
-      };
-    case LOGIN_FAIL:
-      return {
-        ...state,
-        isLoggedIn: false,
-        userInfo: null,
-        login_message: payload.message,
       };
     case LOGOUT_SUCCESS:
       return {

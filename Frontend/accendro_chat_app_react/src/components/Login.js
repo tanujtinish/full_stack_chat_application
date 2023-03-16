@@ -6,8 +6,9 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import css from "../css/Login.css";
+import {login_api_call} from "../Utils/UserServiceApiUtils";
 
-import { login } from "../actions/UserServiceActions";
+import { loginSuccessAction } from "../actions/UserServiceActions";
 
 const required = (value) => {
   if (!value) {
@@ -51,7 +52,7 @@ const Login = (props) => {
   const [loading, setLoading] = useState(false);
   const [successful, setSuccessful] = useState(false);
 
-  const {login_message: login_message } = useSelector(state => state.UserServiceReducer);
+  const [login_message, setLogin_message] = useState("");
 
   const dispatch = useDispatch();
 
@@ -65,6 +66,29 @@ const Login = (props) => {
     setPassword(password);
   };
 
+  const loginUtil = (username, password) => (dispatch) => {
+
+    return login_api_call(username, password).then(
+      (data) => {
+        dispatch(loginSuccessAction({userInfo: data.userInfo, jwt_web_token: data.jwt_web_token}));
+  
+        return Promise.resolve();
+      },
+      (error) => {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+            
+          setLogin_message(message);
+  
+        return Promise.reject();
+      }
+    );
+  };
+
   const handleLogin = (e) => {
     e.preventDefault();
 
@@ -74,7 +98,7 @@ const Login = (props) => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      dispatch(login(username, password))
+      dispatch(loginUtil(username, password))
         .then(() => {
           
         })

@@ -1,16 +1,11 @@
-import {LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_SUCCESS, LOGOUT_FAIL, UNSET_MESSAGE, GET_USERS_SUCCESS, GET_USERS_FAIL} from "./user_service_action_types";
+import {LOGIN_SUCCESS, LOGOUT_SUCCESS, LOGOUT_FAIL, UNSET_MESSAGE, GET_USERS_SUCCESS, GET_USERS_FAIL} from "./user_service_action_types";
 
-import {login_api_call, sign_out_api_call, get_users_api_call} from "../Utils/UserServiceApiUtils";
+import {sign_out_api_call, get_users_api_call} from "../Utils/UserServiceApiUtils";
 import {count_new_messgaes_api_call} from "../Utils/ChatServiveApiUtils";
 
 export const loginSuccessAction = (data) => ({
   type: LOGIN_SUCCESS,
   payload: { userInfo: data.userInfo, jwt_web_token: data.jwt_web_token },
-});
-
-export const loginFailAction = (message) => ({
-  type: LOGIN_FAIL,
-  payload: {message},
 });
 
 export const logOutSuccessAction = (message) => ({
@@ -37,30 +32,6 @@ export const unsetMessage = () => ({
   type: UNSET_MESSAGE,
   payload: {message: ""},
 });
-
-
-export const login = (username, password) => (dispatch) => {
-
-  return login_api_call(username, password).then(
-    (data) => {
-      dispatch(loginSuccessAction({userInfo: data.userInfo, jwt_web_token: data.jwt_web_token}));
-
-      return Promise.resolve();
-    },
-    (error) => {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-
-      dispatch(loginFailAction(message));
-
-      return Promise.reject();
-    }
-  );
-};
 
 export const sign_out = () => (dispatch) => {
 
