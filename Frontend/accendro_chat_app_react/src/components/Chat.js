@@ -4,6 +4,7 @@ import ScrollToBottom from "react-scroll-to-bottom";
 import "../css/Chat.css";
 import {get_messages_api_call} from "../Utils/ChatServiveApiUtils"
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import {get_users_api_call} from "../Utils/UserServiceApiUtils";
 import {count_new_messgaes_api_call} from "../Utils/ChatServiveApiUtils";
@@ -85,8 +86,8 @@ const Chat = () => {
 
   useEffect(() => {
     if(!isLoggedIn){
-      const history = useHistory();
-      history.push("/login_register");
+      const navigate = useNavigate();
+      navigate('/login_register');
     }
     connect();
     get_users(userInfo);
