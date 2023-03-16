@@ -2,16 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Button, message } from "antd";
 import ScrollToBottom from "react-scroll-to-bottom";
 import "../css/Chat.css";
-import { get_users } from "../actions/UserServiceActions";
 import {get_messages_api_call} from "../Utils/ChatServiveApiUtils"
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate  } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 import {get_users_api_call} from "../Utils/UserServiceApiUtils";
 import {count_new_messgaes_api_call} from "../Utils/ChatServiveApiUtils";
 
 var stompClient = null;
-const Chat = (props) => {
+const Chat = () => {
 
   const { isLoggedIn: isLoggedIn } = useSelector((state) => state.UserServiceReducer);
 
@@ -36,9 +34,9 @@ const Chat = (props) => {
     }
   };
 
-  const get_users = (currentUser) => (dispatch) => {
+  const get_users = (currentUser) => {
 
-    return get_users_api_call().then(
+    return get_users_api_call(currentUser.id).then(
       (usersListResponse) => {
   
         usersListResponse.map((user) => {
@@ -59,7 +57,6 @@ const Chat = (props) => {
             error.response.data.message) ||
           error.message ||
           error.toString();
-            
           setGet_users_api_message(message);
   
         return Promise.reject();
@@ -87,6 +84,10 @@ const Chat = (props) => {
   };
 
   useEffect(() => {
+    if(!isLoggedIn){
+      const history = useHistory();
+      history.push("/login_register");
+    }
     connect();
     get_users(userInfo);
   }, []);
@@ -114,10 +115,6 @@ const Chat = (props) => {
       setMessages(newMessages);
     }
   };
-
-  // if (!isLoggedIn) {
-  //   return <Navigate to="/login_register" />;
-  // }
 
   return (
     <div id="frame">

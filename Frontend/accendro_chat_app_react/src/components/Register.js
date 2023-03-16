@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -61,7 +60,6 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
 
   const [signup_message, setSignup_message] = useState(false);
-  const dispatch = useDispatch();
 
   const onChangeUsername = (e) => {
     const username = e.target.value;

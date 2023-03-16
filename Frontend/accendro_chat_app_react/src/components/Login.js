@@ -1,6 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate  } from 'react-router-dom';
+import React, { useState, useRef } from "react";
+import { useDispatch } from "react-redux";
 
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -40,9 +39,7 @@ const vpassword = (value) => {
   }
 };
 
-const Login = (props) => {
-
-  let navigate = useNavigate();
+const Login = () => {
 
   const form = useRef();
   const checkBtn = useRef();
