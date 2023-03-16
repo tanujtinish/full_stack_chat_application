@@ -19,13 +19,13 @@ const Chat = () => {
   const [get_users_api_message, setGet_users_api_message] = useState("");
   const [all_users, setAll_users] = useState([]);
   const [text, setText] = useState("");
-  const [activeContact, setActiveContact] = useState();
+  const [activeContact, setActiveContact] = useState({id:-1, username:""});
   const [messages, setMessages] = useState();
 
   const onMessageReceived = (msg) => {
     const notification = JSON.parse(msg.body);
 
-    if (activeContact.id === notification.senderId) {
+    if (notification && activeContact.id === notification.senderId) {
       const newMessages = [...messages];
       newMessages.push(notification.messageString);
       setMessages(newMessages);
