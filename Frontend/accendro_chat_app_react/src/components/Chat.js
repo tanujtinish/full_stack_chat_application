@@ -24,15 +24,25 @@ const Chat = () => {
 
   const onMessageReceived = (msg) => {
     const notification = JSON.parse(msg.body);
-    const active = JSON.parse(sessionStorage.getItem("activeContact"));
+    const activeContact_ss = JSON.parse(sessionStorage.getItem("activeContact"));
+    const messages_ss = JSON.parse(sessionStorage.getItem("messages"));
+    const all_users_ss = JSON.parse(sessionStorage.getItem("all_users"));
 
-    if (notification && active.id == notification.senderId) {
-      const newMessages = [...messages];
+    if (notification && activeContact_ss.id == notification.senderId) {
+      const newMessages = [...messages_ss];
       newMessages.push(notification.messageString);
       setMessages(newMessages);
     } else {
       message.info("Received a new message from " + notification.senderId);
-      get_users(userInfo);
+
+      const updatedAllUsers = all_users_ss.map((user) => {
+        if(activeContact && user.id == activeContact.id){
+          return { ...user, newMessages: user.newMessages + 1 };
+        } else {
+          return user;
+        }
+      })
+      setAll_users(updatedAllUsers);
     }
   };
 
@@ -111,6 +121,14 @@ const Chat = () => {
     })
     setAll_users(updatedAllUsers);
   }, [activeContact]);
+
+  useEffect(() => {
+    sessionStorage.setItem("all_users", JSON.stringify(all_users));
+  }, [all_users]);
+
+  useEffect(() => {
+    sessionStorage.setItem("messages", JSON.stringify(messages));
+  }, [messages]);
 
   const sendMessage = (msg) => {
     if (msg.trim() !== "") {
