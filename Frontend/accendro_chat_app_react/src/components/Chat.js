@@ -15,6 +15,8 @@ const Chat = (props) => {
   const {all_users: contacts } = useSelector(state => state.UserServiceReducer);
   const {userInfo: userInfo } = useSelector(state => state.UserServiceReducer);
 
+  const [get_users_api_message, setGet_users_api_message] = useState("");
+  const [all_users, setAll_users] = useState([]);
   const [text, setText] = useState("");
   const [activeContact, setActiveContact] = useState();
   const [messages, setMessages] = useState();
@@ -30,6 +32,37 @@ const Chat = (props) => {
       message.info("Received a new message from " + notification.senderId);
       get_users(userInfo);
     }
+  };
+
+  const get_users = (currentUser) => (dispatch) => {
+
+    return get_users_api_call().then(
+      (usersListResponse) => {
+  
+        usersListResponse.map((user) => {
+          count_new_messgaes_api_call(user.id, currentUser.id).then((count) => {
+            user.newMessages = count;
+            return user;
+          })
+        })
+        //id, username, email, roles, newMessages
+        setAll_users(usersListResponse);
+  
+        return Promise.resolve();
+      },
+      (error) => {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+            
+          setGet_users_api_message(message);
+  
+        return Promise.reject();
+      }
+    );
   };
   
   const onConnected = () => {
