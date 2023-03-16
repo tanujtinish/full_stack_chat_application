@@ -26,7 +26,7 @@ const Chat = () => {
     const notification = JSON.parse(msg.body);
     const active = JSON.parse(sessionStorage.getItem("activeContact"));
 
-    if (notification && active.id === notification.senderId) {
+    if (notification && active.id == notification.senderId) {
       const newMessages = [...messages];
       newMessages.push(notification.messageString);
       setMessages(newMessages);
@@ -166,7 +166,7 @@ const Chat = () => {
                 key = {contact.id}
                 onClick={() => setActiveContact(contact)}
                 className={
-                  activeContact && contact.id === activeContact.id
+                  activeContact && contact.id == activeContact.id
                     ? "contact active"
                     : "contact"
                 }
@@ -207,8 +207,10 @@ const Chat = () => {
         <ScrollToBottom className="messages">
           <ul>
             {(messages == null ? [] : messages).map((msg) => (
-              <li className={msg.senderId === userInfo.id ? "sent" : "replies"}>
-                {msg.senderId !== userInfo.id && (
+              <li 
+              key = {msg.id}
+              className={msg.senderId == userInfo.id ? "sent" : "replies"}>
+                {msg.senderId != userInfo.id && (
                   <img src={activeContact.profilePicture} alt="" />
                 )}
                 <p>{msg.content}</p>
