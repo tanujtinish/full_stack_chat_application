@@ -6,7 +6,7 @@ import Register from "./Register"
 import Login from "./Login"
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import css from "../css/LoginRegister.css";
 
@@ -30,8 +30,8 @@ const LoginRegister = (props) => {
     }
 
     useEffect(() => {
-        const history = useHistory();
-        history.push("/chat");
+        const navigate = useNavigate();
+        navigate('/chat');
     }, []);
     
     return (
