@@ -1,7 +1,6 @@
-import {LOGIN_SUCCESS, LOGOUT_SUCCESS, LOGOUT_FAIL, UNSET_MESSAGE} from "./user_service_action_types";
+import {LOGIN_SUCCESS, LOGOUT_SUCCESS, LOGOUT_FAIL} from "./user_service_action_types";
 
-import {sign_out_api_call, get_users_api_call} from "../Utils/UserServiceApiUtils";
-import {count_new_messgaes_api_call} from "../Utils/ChatServiveApiUtils";
+import {sign_out_api_call} from "../Utils/UserServiceApiUtils";
 
 export const loginSuccessAction = (data) => ({
   type: LOGIN_SUCCESS,
@@ -16,11 +15,6 @@ export const logOutSuccessAction = (message) => ({
 export const logOutFailAction = (message) => ({
   type: LOGOUT_FAIL,
   payload: {message},
-});
-
-export const unsetMessage = () => ({
-  type: UNSET_MESSAGE,
-  payload: {message: ""},
 });
 
 export const sign_out = () => (dispatch) => {
