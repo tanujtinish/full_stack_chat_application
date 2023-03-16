@@ -6,7 +6,7 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
-import { signup } from "../actions/UserServiceActions";
+import {signup_api_call} from "../Utils/UserServiceApiUtils";
 
 import css from "../css/Register.css";
 
@@ -60,8 +60,7 @@ const Register = () => {
   const [successful, setSuccessful] = useState(false);
   const [loading, setLoading] = useState(false);
 
-
-  const { signup_message: signup_message } = useSelector(state => state.UserServiceReducer);
+  const [signup_message, setSignup_message] = useState(false);
   const dispatch = useDispatch();
 
   const onChangeUsername = (e) => {
@@ -79,6 +78,29 @@ const Register = () => {
     setPassword(password);
   };
 
+  const signupUtil = (username, email, password) => {
+
+    return signup_api_call(username, email, password).then(
+      (messageResponse) => {
+        setSignup_message(messageResponse.message);
+  
+        return Promise.resolve();
+      },
+      (error) => {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+            
+          setSignup_message(message);
+  
+        return Promise.reject();
+      }
+    );
+  };
+
   const handleRegister = (e) => {
     e.preventDefault();
 
@@ -88,7 +110,7 @@ const Register = () => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      dispatch(signup(username, email, password))
+      signupUtil(username, email, password)
         .then(() => {
           setLoading(false);
           setSuccessful(true);
