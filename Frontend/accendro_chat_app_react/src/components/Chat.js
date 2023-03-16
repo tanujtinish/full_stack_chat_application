@@ -24,8 +24,9 @@ const Chat = () => {
 
   const onMessageReceived = (msg) => {
     const notification = JSON.parse(msg.body);
+    const active = JSON.parse(sessionStorage.getItem("activeContact"));
 
-    if (notification && activeContact.id === notification.senderId) {
+    if (notification && active.id === notification.senderId) {
       const newMessages = [...messages];
       newMessages.push(notification.messageString);
       setMessages(newMessages);
@@ -89,16 +90,26 @@ const Chat = () => {
     if(!isLoggedIn){
       navigate('/login_register');
     }
-    connect();
-    get_users(userInfo);
+    else{
+      connect();
+      get_users(userInfo);
+    }
   }, []);
 
   useEffect(() => {
     if (activeContact === undefined) return;
+    sessionStorage.setItem("activeContact", JSON.stringify(activeContact));
     get_messages_api_call(activeContact.id, userInfo.id).then((msgs) =>{
       setMessages(msgs)
     });
-    get_users(userInfo);
+    const updatedAllUsers = all_users.map((user) => {
+      if(activeContact && user.id == activeContact.id){
+        return { ...user, newMessages: 0 };
+      } else {
+        return user;
+      }
+    })
+    setAll_users(updatedAllUsers);
   }, [activeContact]);
 
   const sendMessage = (msg) => {
