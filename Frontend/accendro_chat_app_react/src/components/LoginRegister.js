@@ -29,9 +29,12 @@ const LoginRegister = (props) => {
         setIsRightPanelActive(false);
     }
 
+    const navigate = useNavigate();
     useEffect(() => {
-        const navigate = useNavigate();
-        navigate('/chat');
+        if(isLoggedIn)
+        {
+            navigate('/chat');
+        }
     }, []);
     
     return (
