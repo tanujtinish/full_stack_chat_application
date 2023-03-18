@@ -1,35 +1,26 @@
 import React from "react";
-import { Navigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 
 const Profile = () => {
-  const { user: currentUser, message: message } = useSelector((state) => state.UserServiceReducer);
-
-  if (!currentUser) {
-    return <Navigate to="/login_register" />;
-  }
+  const { userInfo: userInfo, isLoggedIn: isLoggedIn, jwt_web_token: jwt_web_token} = useSelector((state) => state.UserServiceReducer);
 
   return (
     <div className="container">
       <header className="jumbotron">
         <h3>
-          <strong>{currentUser.username}</strong> Profile
+          <strong>{userInfo.username}</strong> Profile
         </h3>
       </header>
       <p>
-        <strong>Token:</strong> {currentUser.accessToken.substring(0, 20)} ...{" "}
-        {currentUser.accessToken.substr(currentUser.accessToken.length - 20)}
+        <strong>Id:</strong> {userInfo.id}
       </p>
       <p>
-        <strong>Id:</strong> {currentUser.id}
-      </p>
-      <p>
-        <strong>Email:</strong> {currentUser.email}
+        <strong>Email:</strong> {userInfo.email}
       </p>
       <strong>Authorities:</strong>
       <ul>
-        {currentUser.roles &&
-          currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
+        {userInfo.roles &&
+          userInfo.roles.map((role, index) => <li key={index}>{role}</li>)}
       </ul>
     </div>
   );

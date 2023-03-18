@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import {get_users_api_call} from "../Utils/UserServiceApiUtils";
 import {count_new_messgaes_api_call} from "../Utils/ChatServiveApiUtils";
 
+import Profile from "./Profile";
+
 var stompClient = null;
 const Chat = () => {
 
@@ -21,6 +23,8 @@ const Chat = () => {
   const [text, setText] = useState("");
   const [activeContact, setActiveContact] = useState({id:-1, username:""});
   const [messages, setMessages] = useState();
+
+  const [showProfile, setShowProfile] = useState(false);
 
   const onMessageReceived = (msg) => {
     const notification = JSON.parse(msg.body);
@@ -146,6 +150,9 @@ const Chat = () => {
     }
   };
 
+  if(showProfile){
+    return <Profile />;
+  }
   return (
     <div id="frame">
       <div id="sidepanel">
@@ -207,7 +214,9 @@ const Chat = () => {
           </ul>
         </div>
         <div id="bottom-bar">
-          <button id="addcontact">
+          <button id="addcontact" onClick={() => {
+                setShowProfile(true);
+              }}>
             <i className="fa fa-user fa-fw" aria-hidden="true"></i>{" "}
             <span>Profile</span>
           </button>
@@ -231,7 +240,7 @@ const Chat = () => {
                 {msg.senderId != userInfo.id && (
                   <img src={activeContact.profilePicture} alt="" />
                 )}
-                <p>{msg.content}</p>
+                <p>{msg.messageString}</p>
               </li>
             ))}
           </ul>
