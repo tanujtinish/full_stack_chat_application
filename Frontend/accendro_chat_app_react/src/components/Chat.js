@@ -5,6 +5,10 @@ import "../css/Chat.css";
 import {get_messages_api_call} from "../Utils/ChatServiveApiUtils"
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import LoadingOverlay from 'react-loading-overlay';
+
+import {logOutAction} from "../actions/UserServiceActions"
 
 import {get_users_api_call} from "../Utils/UserServiceApiUtils";
 import {count_new_messgaes_api_call} from "../Utils/ChatServiveApiUtils";
@@ -22,9 +26,13 @@ const Chat = () => {
   const [all_users, setAll_users] = useState([]);
   const [text, setText] = useState("");
   const [activeContact, setActiveContact] = useState({id:-1, username:""});
-  const [messages, setMessages] = useState();
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState("");
 
   const [showProfile, setShowProfile] = useState(false);
+
+  const dispatch = useDispatch();
 
   const onMessageReceived = (msg) => {
     const notification = JSON.parse(msg.body);
@@ -110,6 +118,32 @@ const Chat = () => {
     }
   }, []);
 
+  const logoutUtil = () => (dispatch) => {
+
+    dispatch(logOutAction());
+    return Promise.resolve();
+
+  };
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+
+    setLoading(true);
+    setLoadingMessage("Logging Out");
+
+    dispatch(logoutUtil())
+      .then(() => {
+        setLoading(false);
+        setLoadingMessage("");
+        navigate('/login_register');
+      })
+      .catch(() => {
+        setLoading(false);
+        setLoadingMessage("");
+      });
+    
+  };
+
   useEffect(() => {
     if (activeContact === undefined) return;
     sessionStorage.setItem("activeContact", JSON.stringify(activeContact));
@@ -166,7 +200,7 @@ const Chat = () => {
             /> */}
             <p>{userInfo===null ? "test_user" : userInfo.username}</p>
             <div id="status-options">
-              <ul>
+              {/* <ul>
                 <li id="status-online" className="active">
                   <span className="status-circle"></span> <p>Online</p>
                 </li>
@@ -179,7 +213,7 @@ const Chat = () => {
                 <li id="status-offline">
                   <span className="status-circle"></span> <p>Offline</p>
                 </li>
-              </ul>
+              </ul> */}
             </div>
           </div>
         </div>
@@ -220,9 +254,9 @@ const Chat = () => {
             <i className="fa fa-user fa-fw" aria-hidden="true"></i>{" "}
             <span>Profile</span>
           </button>
-          <button id="settings">
+          <button id="Log Out" onClick={handleLogout}>
             <i className="fa fa-cog fa-fw" aria-hidden="true"></i>{" "}
-            <span>Settings</span>
+            <span>Log Out</span>
           </button>
         </div>
       </div>
