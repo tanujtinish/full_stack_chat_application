@@ -57,6 +57,7 @@ public class SecurityAPIConfig {
         .exceptionHandling().authenticationEntryPoint(entryPointForJWTSecurity).and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
         .authorizeHttpRequests().requestMatchers("/chat/security/**").permitAll()
+        .requestMatchers("/chat/user/users/**").permitAll()
         .anyRequest().authenticated();
     
     http.authenticationProvider(authenticationProvider());

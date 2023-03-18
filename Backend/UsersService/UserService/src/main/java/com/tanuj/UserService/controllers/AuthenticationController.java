@@ -32,6 +32,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -99,9 +100,17 @@ public class AuthenticationController {
         Set<Roles> roles = new HashSet<>();
 
         if (strRoles == null) {
-            Roles userRoles = roleRepository.findByName("ROLE_USER")
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(userRoles);
+            Optional<Roles> userRoles = roleRepository.findByName("ROLE_USER");
+
+            if(userRoles.isPresent()){
+                roles.add(userRoles.get());
+            }
+            else{
+                Roles userRole = new Roles();
+                userRole.setName("ROLE_USER");
+                roleRepository.save(userRole);
+                roles.add(userRole);
+            }
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
