@@ -6,7 +6,6 @@ import "./App.css";
 
 import LoginRegister from "./components/LoginRegister";
 import Profile from "./components/Profile";
-import Header from "./components/Header";
 import Chat from "./components/Chat";
 
 const App = () => {
