@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  accendro_chat_web_app_react:
+    build:
+      context: ../
+      dockerfile: ./Docker/Dockerfile
+    ports:
+      - "3000:3000"
