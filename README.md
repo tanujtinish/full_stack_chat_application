@@ -7,9 +7,16 @@ Steps:
 1. Clone this repository
 2. Go to root folder full_stack_chat_application
 3. To start services run:
-    3.1 docker-compose -f ./Backend/WebSocketChatService/WebSocketChatService/Docker/docker-compose.yml up -d
-    3.2 docker-compose -f ./Backend/UsersService/UserService/Docker/docker-compose.yml up -d
-    3.3 
+    3.1 Backend service 1: docker-compose -f ./Backend/WebSocketChatService/WebSocketChatService/Docker/docker-compose.yml up -d
+    3.2 Backend service 2: docker-compose -f ./Backend/UsersService/UserService/Docker/docker-compose.yml up -d
+    3.3 Frontend service 1: docker-compose -f ./Frontend/accendro_chat_app_react/Docker/docker-compose.yml up -d
+
+# Frontend service
+    # Frontend service 1: React Web App for Chat Service
+    Frontend backend application for our chat application built using React JS
+    
+    # To Run This Service, type:
+    docker-compose -f ./Frontend/accendro_chat_app_react/Docker/docker-compose.yml up -d
 
 # Backend services
     # Backend service 1: Web Socket Service
@@ -42,8 +49,9 @@ Steps:
                 password,
                 roles
             }
+
         # To Run This Service, type:
-       docker-compose -f ./Backend/WebSocketChatService/WebSocketChatService/Docker/docker-compose.yml up -d
+        docker-compose -f ./Backend/WebSocketChatService/WebSocketChatService/Docker/docker-compose.yml up -d
 
         
     # Backend service 2: User Service
