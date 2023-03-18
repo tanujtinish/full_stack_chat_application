@@ -1,5 +1,6 @@
 package com.tanuj.WebSocketChatService.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import java.util.List;
 import com.tanuj.WebSocketChatService.model.Message;
 import com.tanuj.WebSocketChatService.model.DTO.MessageDTO;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
 public class WebSocketChatController {
     

@@ -14,6 +14,7 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseCookie.ResponseCookieBuilder;
 import org.springframework.stereotype.Component;
 
+import java.util.Base64;
 import java.util.Date;
 
 @Component
@@ -35,11 +36,14 @@ public class JWTService {
         
         long timeNow = (new Date()).getTime();
 
+        byte[] keyBytes = secretKey.getBytes();
+        String encodedKey = Base64.getEncoder().encodeToString(keyBytes);
+
         JwtBuilder jwtBuilder = Jwts.builder();
         jwtBuilder.setExpiration(new Date(timeNow + tokenExpiration));
         jwtBuilder.setSubject(username);
         jwtBuilder.setIssuedAt(new Date());
-        jwtBuilder.signWith(SignatureAlgorithm.HS512, secretKey);
+        jwtBuilder.signWith(SignatureAlgorithm.HS512, encodedKey);
 
         String token = jwtBuilder.compact();
         
@@ -81,8 +85,11 @@ public class JWTService {
     public String getUserNameFromJwtToken(String token) {
 
         try {
+            byte[] keyBytes = secretKey.getBytes();
+            String encodedKey = Base64.getEncoder().encodeToString(keyBytes);
+
             JwtParser jwtParser = Jwts.parser();
-            jwtParser.setSigningKey(secretKey);
+            jwtParser.setSigningKey(encodedKey);
 
             return jwtParser.parseClaimsJws(token).getBody().getSubject();
 

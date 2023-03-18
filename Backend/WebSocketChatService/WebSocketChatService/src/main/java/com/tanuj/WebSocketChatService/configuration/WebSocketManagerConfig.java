@@ -22,9 +22,9 @@ public class WebSocketManagerConfig implements WebSocketMessageBrokerConfigurer 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         
-        config.setApplicationDestinationPrefixes("/user_messages_topic");
+        config.setApplicationDestinationPrefixes("/chat_app");
         
-        config.enableSimpleBroker( "/chat_app");
+        config.enableSimpleBroker( "/user_messages_topic");
         
         config.setUserDestinationPrefix("/user_messages_topic");
     }
@@ -32,7 +32,7 @@ public class WebSocketManagerConfig implements WebSocketMessageBrokerConfigurer 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         
-        registry.addEndpoint("/web_socket").setAllowedOrigins("*").withSockJS();
+        registry.addEndpoint("/web_socket").setAllowedOriginPatterns("*").withSockJS();
     }
 
     private MessageConverter createJsonMessageConverter() {
