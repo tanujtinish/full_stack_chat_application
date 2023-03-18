@@ -18,6 +18,11 @@
 *.zip
 *.tar.gz
 *.rar
+*.DS_Store
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+node_modules/
+Frontend/accendro_chat_app_react/node_modules
+Backend/WebSocketChatService/WebSocketChatService/Docker/data/
