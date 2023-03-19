@@ -50,7 +50,7 @@ public class WebSocketChatController {
     }
 
     @GetMapping("/chatApp/{senderId}/{recieverId}/count")
-    public ResponseEntity<Long> countUnreadMessages(
+    public ResponseEntity<?> countUnreadMessages(
             @PathVariable String senderId,
             @PathVariable String recieverId) {
         
@@ -60,13 +60,14 @@ public class WebSocketChatController {
         }
         catch(Exception e){
             LOGGER.error("Error in controller countUnreadMessages is: "+e);
+            return ResponseEntity.badRequest().body("Error in controller countUnreadMessages is: "+e);
         }
 
         return ResponseEntity.ok(unreadMessagesCount);
     }
 
     @GetMapping("/chatApp/{senderId}/{recieverId}/getMessages")
-    public ResponseEntity<List<Message>> findChatMessages ( 
+    public ResponseEntity<?> findChatMessages ( 
         @PathVariable String senderId,
         @PathVariable String recieverId) {
         
@@ -76,6 +77,7 @@ public class WebSocketChatController {
             }
             catch(Exception e){
                 LOGGER.error("Error in controller findChatMessages is: "+e);
+                return ResponseEntity.badRequest().body("Error in controller findChatMessages is: "+e);
             }
             return ResponseEntity.ok(messages);
     }
