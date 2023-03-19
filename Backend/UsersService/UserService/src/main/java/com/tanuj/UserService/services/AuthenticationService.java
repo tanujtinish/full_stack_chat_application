@@ -34,13 +34,8 @@ public class AuthenticationService {
     @Autowired
     PasswordEncoder encoder;
 
-    public Users signUpUser(SignUpDTO singUpDto){
+    private Set<Roles> getRolesToBeAdded(Set<String> strRoles){
 
-        Users user = new Users(singUpDto.getUsername(),
-                                singUpDto.getEmail(),
-                                encoder.encode(singUpDto.getPassword()));
-
-        Set<String> strRoles = singUpDto.getRoles();
         Set<Roles> roles = new HashSet<>();
 
         if (strRoles == null) {
@@ -77,6 +72,18 @@ public class AuthenticationService {
                 }
             });
         }
+
+        return roles;
+    }
+
+    public Users signUpUser(SignUpDTO singUpDto){
+
+        Users user = new Users(singUpDto.getUsername(),
+                                singUpDto.getEmail(),
+                                encoder.encode(singUpDto.getPassword()));
+
+        Set<String> strRoles = singUpDto.getRoles();
+        Set<Roles> roles = getRolesToBeAdded(strRoles);
 
         user.setRoles(roles);
         userRepository.save(user);
