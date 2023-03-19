@@ -32,6 +32,8 @@ const Chat = () => {
 
   const [showProfile, setShowProfile] = useState(false);
 
+  const [profileContact, setProfileContact] = useState({id:-1, username:""});
+
   const dispatch = useDispatch();
 
   const onMessageReceived = (msg) => {
@@ -234,7 +236,7 @@ const Chat = () => {
                 }
               >
                 <div className="wrap">
-                  <span className="contact-status online"></span>
+                  {/* <span className="contact-status online"></span> */}
                   {/* <img id={contact.id} src={contact.profilePicture} alt="" /> */}
                   <div className="meta">
                     <p className="name">{contact.username}</p>
@@ -253,6 +255,7 @@ const Chat = () => {
         <div id="bottom-bar">
           <button id="addcontact" onClick={() => {
                 setActiveContact(null);
+                setProfileContact(null);
                 setShowProfile(true);
               }}>
             <i className="fa fa-user fa-fw" aria-hidden="true"></i>{" "}
@@ -268,10 +271,20 @@ const Chat = () => {
         <div className="contact-profile">
           {/* <img src={activeContact && activeContact.profilePicture} alt="" /> */}
           <p>{!showProfile && activeContact && activeContact.username}</p>
+          {
+            (!showProfile) 
+            && 
+            <button id="addcontact" onClick={() => {
+              setProfileContact(activeContact);
+              setShowProfile(true);
+            }}>
+              <span>Profile</span>
+            </button>
+          }
         </div>
         {
         (showProfile) ? 
-          <Profile /> 
+          <Profile userInfo = {profileContact ? profileContact : userInfo}/> 
             :
           <div>
             <ScrollToBottom className="messages">
