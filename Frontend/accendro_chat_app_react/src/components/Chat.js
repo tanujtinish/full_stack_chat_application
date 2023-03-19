@@ -71,6 +71,9 @@ const Chat = () => {
         })
         //id, username, email, roles, newMessages
         setAll_users(usersListResponse);
+        if(usersListResponse.length > 0){
+          setActiveContact(usersListResponse[0]);
+        }
   
         return Promise.resolve();
       },
@@ -145,8 +148,11 @@ const Chat = () => {
   };
 
   useEffect(() => {
+
     if (activeContact === undefined) return;
     sessionStorage.setItem("activeContact", JSON.stringify(activeContact));
+
+    if (activeContact === null) return;
     get_messages_api_call(activeContact.id, userInfo.id).then((msgs) =>{
       setMessages(msgs)
     });
@@ -184,9 +190,6 @@ const Chat = () => {
     }
   };
 
-  if(showProfile){
-    return <Profile />;
-  }
   return (
     <div id="frame">
       <div id="sidepanel">
@@ -223,7 +226,7 @@ const Chat = () => {
             {(all_users == null ? [] : all_users).map((contact) => (
               <li
                 key = {contact.id}
-                onClick={() => setActiveContact(contact)}
+                onClick={() => {setActiveContact(contact); setShowProfile(false);}}
                 className={
                   activeContact && contact.id == activeContact.id
                     ? "contact active"
@@ -249,6 +252,7 @@ const Chat = () => {
         </div>
         <div id="bottom-bar">
           <button id="addcontact" onClick={() => {
+                setActiveContact(null);
                 setShowProfile(true);
               }}>
             <i className="fa fa-user fa-fw" aria-hidden="true"></i>{" "}
@@ -263,47 +267,54 @@ const Chat = () => {
       <div className="content">
         <div className="contact-profile">
           {/* <img src={activeContact && activeContact.profilePicture} alt="" /> */}
-          <p>{activeContact && activeContact.username}</p>
+          <p>{!showProfile && activeContact && activeContact.username}</p>
         </div>
-        <ScrollToBottom className="messages">
-          <ul>
-            {(messages == null ? [] : messages).map((msg) => (
-              <li 
-              key = {msg.id}
-              className={msg.senderId == userInfo.id ? "sent" : "replies"}>
-                {msg.senderId != userInfo.id && (
-                  <img src={activeContact.profilePicture} alt="" />
-                )}
-                <p>{msg.messageString}</p>
-              </li>
-            ))}
-          </ul>
-        </ScrollToBottom>
-        <div className="message-input">
-          <div className="wrap">
-            <input
-              name="user_input"
-              size="large"
-              placeholder="Write your message..."
-              value={text}
-              onChange={(event) => setText(event.target.value)}
-              onKeyPress={(event) => {
-                if (event.key === "Enter") {
-                  sendMessage(text);
-                  setText("");
-                }
-              }}
-            />
+        {
+        (showProfile) ? 
+          <Profile /> 
+            :
+          <div>
+            <ScrollToBottom className="messages">
+              <ul>
+                {(messages == null ? [] : messages).map((msg) => (
+                  <li 
+                  key = {msg.id}
+                  className={msg.senderId == userInfo.id ? "sent" : "replies"}>
+                    {msg.senderId != userInfo.id && (
+                      <img src={activeContact.profilePicture} alt="" />
+                    )}
+                    <p>{msg.messageString}</p>
+                  </li>
+                ))}
+              </ul> 
+            </ScrollToBottom>
+            <div className="message-input">
+              <div className="wrap">
+                <input
+                  name="user_input"
+                  size="large"
+                  placeholder="Write your message..."
+                  value={text}
+                  onChange={(event) => setText(event.target.value)}
+                  onKeyPress={(event) => {
+                    if (event.key === "Enter") {
+                      sendMessage(text);
+                      setText("");
+                    }
+                  }}
+                />
 
-            <Button
-              icon={<i className="fa fa-paper-plane" aria-hidden="true"></i>}
-              onClick={() => {
-                sendMessage(text);
-                setText("");
-              }}
-            />
+                <Button
+                  icon={<i className="fa fa-paper-plane" aria-hidden="true"></i>}
+                  onClick={() => {
+                    sendMessage(text);
+                    setText("");
+                  }}
+                />
+              </div>
+            </div>
           </div>
-        </div>
+        }
       </div>
     </div>
   );
