@@ -1,11 +1,8 @@
 package com.tanuj.UserService.controllers;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.tanuj.UserService.model.Roles;
 import com.tanuj.UserService.model.Users;
 import com.tanuj.UserService.model.DTO.LoginDTO;
 import com.tanuj.UserService.model.DTO.MessageDTO;
@@ -13,6 +10,7 @@ import com.tanuj.UserService.model.DTO.SignUpDTO;
 import com.tanuj.UserService.model.DTO.UserInfoDTO;
 import com.tanuj.UserService.repository.RolesRepositoey;
 import com.tanuj.UserService.repository.UsersRepository;
+import com.tanuj.UserService.services.AuthenticationService;
 import com.tanuj.UserService.services.JWTService;
 import com.tanuj.UserService.services.UserDetailsImpl;
 
@@ -21,6 +19,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,7 +31,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +49,9 @@ public class AuthenticationController {
 
     @Autowired
     RolesRepositoey roleRepository;
+
+    @Autowired
+    AuthenticationService authenticationService;
 
     @Autowired
     PasswordEncoder encoder;
@@ -89,7 +90,9 @@ public class AuthenticationController {
         }
         catch(Exception e){
             LOGGER.error("Error in controller authenticateUser is: "+e);
-            return ResponseEntity.ok(new MessageDTO("Error in controller authenticateUser is: "+e));
+            e.printStackTrace();
+
+            return ResponseEntity.badRequest().body(new MessageDTO("Error in controller authenticateUser is: "+e));
         }
     }
 
@@ -98,63 +101,22 @@ public class AuthenticationController {
 
         try{
             if (userRepository.existsByUsername(singUpDto.getUsername())) {
-            return ResponseEntity.badRequest().body(new MessageDTO("Error: Username is already taken!"));
+                return ResponseEntity.badRequest().body(new MessageDTO("Error: Username is already taken!"));
             }
 
             if (userRepository.existsByEmail(singUpDto.getEmail())) {
-            return ResponseEntity.badRequest().body(new MessageDTO("Error: Email is already in use!"));
+                return ResponseEntity.badRequest().body(new MessageDTO("Error: Email is already in use!"));
             }
 
-            Users user = new Users(singUpDto.getUsername(),
-                                singUpDto.getEmail(),
-                                encoder.encode(singUpDto.getPassword()));
-
-            Set<String> strRoles = singUpDto.getRoles();
-            Set<Roles> roles = new HashSet<>();
-
-            if (strRoles == null) {
-                Optional<Roles> userRoles = roleRepository.findByName("ROLE_USER");
-
-                if(userRoles.isPresent()){
-                    roles.add(userRoles.get());
-                }
-                else{
-                    Roles userRole = new Roles();
-                    userRole.setName("ROLE_USER");
-                    roleRepository.save(userRole);
-                    roles.add(userRole);
-                }
-            } else {
-                strRoles.forEach(role -> {
-                    switch (role) {
-                        case "admin":
-                        Roles adminRole = roleRepository.findByName("ROLE_ADMIN")
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(adminRole);
-
-                        break;
-                        case "mod":
-                        Roles modRole = roleRepository.findByName("ROLE_MODERATOR")
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
-
-                        break;
-                        default:
-                        Roles userRole = roleRepository.findByName("ROLE_USER")
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(userRole);
-                    }
-                });
-            }
-
-            user.setRoles(roles);
-            userRepository.save(user);
+            Users user = authenticationService.signUpUser(singUpDto);
 
             return ResponseEntity.ok(new MessageDTO("User registered successfully!"));
         }
         catch(Exception e){
-            LOGGER.error("Error in controller authenticateUser is: "+e);
-            return ResponseEntity.ok(new MessageDTO("Error in controller authenticateUser is: "+e));
+            LOGGER.error("Error in controller signUpUser is: "+e);
+            e.printStackTrace();
+
+            return ResponseEntity.badRequest().body(new MessageDTO("Error in controller signUpUser is: "+e));
         }
     }
 
@@ -170,7 +132,9 @@ public class AuthenticationController {
         }
         catch(Exception e){
             LOGGER.error("Error in controller logoutUser is: "+e);
-            return ResponseEntity.ok(new MessageDTO("Error in controller logoutUser is: "+e));
+            e.printStackTrace();
+
+            return ResponseEntity.badRequest().body(new MessageDTO("Error in controller logoutUser is: "+e));
         }
     }
 }
