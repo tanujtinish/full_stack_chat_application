@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -20,28 +22,44 @@ public class UserController {
     @Autowired
     UsersRepository userRepository;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+
     private UserInfoDTO userToUserInfoDTO(Users userDetails){
-        return UserInfoDTO.builder()
+
+        try{
+            return UserInfoDTO.builder()
             .id(userDetails.getId())
             .username(userDetails.getUsername())
             .email(userDetails.getEmail())
             .build();
+        }
+        catch(Exception e){
+            LOGGER.error("Error in function userToUserInfoDTO is: "+e);
+            return null;
+        }
     }
 
     @GetMapping(value = "/users/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UserInfoDTO>> findAll(@PathVariable String userId) {
-        Long userIdLong =  Long.parseLong(userId);
         
-        List<Users> users = userRepository.findAll();
-        
-        List<UserInfoDTO> usersDto = users
-                .stream()
-                .filter(user -> !user.getId().equals(userIdLong))
-                .map(user -> userToUserInfoDTO(user))
-                .toList();
+        try{
+            Long userIdLong =  Long.parseLong(userId);
+            
+            List<Users> users = userRepository.findAll();
+            
+            List<UserInfoDTO> usersDto = users
+                    .stream()
+                    .filter(user -> !user.getId().equals(userIdLong))
+                    .map(user -> userToUserInfoDTO(user))
+                    .toList();
 
-        return ResponseEntity
-                .ok(usersDto);
+            return ResponseEntity
+                    .ok(usersDto);
+        }
+        catch(Exception e){
+            LOGGER.error("Error in controller findAll users except userId is: "+e);
+            return null;
+        }
     }
 
 }
