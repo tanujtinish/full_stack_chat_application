@@ -18,10 +18,13 @@ import java.util.List;
 import com.tanuj.WebSocketChatService.model.Message;
 import com.tanuj.WebSocketChatService.model.DTO.MessageDTO;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
 public class WebSocketChatController {
     
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebSocketChatController.class);
 
     @Autowired 
     private MessageService messageService;
@@ -32,12 +35,18 @@ public class WebSocketChatController {
     @MessageMapping("/chatApp/send")
     public void sendMessage(@Payload MessageDTO messageDTO) {
         
-        messageService.sendMessage(messageDTO);
+        try{
+            messageService.sendMessage(messageDTO);
 
-        simpMessagingTemplate.convertAndSendToUser(
-            messageDTO.getRecieverId(),
-            "/chatMessageQueue",
-            messageDTO);
+            simpMessagingTemplate.convertAndSendToUser(
+                messageDTO.getRecieverId(),
+                "/chatMessageQueue",
+                messageDTO);
+        }
+        catch(Exception e){
+            LOGGER.error("Error in controller sendMessage is: "+e);
+        }
+
     }
 
     @GetMapping("/chatApp/{senderId}/{recieverId}/count")
@@ -45,9 +54,15 @@ public class WebSocketChatController {
             @PathVariable String senderId,
             @PathVariable String recieverId) {
         
+        Long unreadMessagesCount = 0L;
+        try{
+            unreadMessagesCount = messageService.countUnreadMessages(senderId, recieverId);
+        }
+        catch(Exception e){
+            LOGGER.error("Error in controller countUnreadMessages is: "+e);
+        }
 
-            Long unreadMessagesCount = messageService.countUnreadMessages(senderId, recieverId);
-            return ResponseEntity.ok(unreadMessagesCount);
+        return ResponseEntity.ok(unreadMessagesCount);
     }
 
     @GetMapping("/chatApp/{senderId}/{recieverId}/getMessages")
@@ -55,7 +70,13 @@ public class WebSocketChatController {
         @PathVariable String senderId,
         @PathVariable String recieverId) {
         
-            List<Message> messages = messageService.findAllConversationMessages(senderId, recieverId);
+            List<Message> messages = null;
+            try{
+                messages = messageService.findAllConversationMessages(senderId, recieverId);
+            }
+            catch(Exception e){
+                LOGGER.error("Error in controller findChatMessages is: "+e);
+            }
             return ResponseEntity.ok(messages);
     }
 

@@ -1,7 +1,6 @@
 package com.tanuj.WebSocketChatService.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.tanuj.WebSocketChatService.repository.MessageRepository;
 import com.tanuj.WebSocketChatService.model.Message;
@@ -15,8 +14,13 @@ import org.springframework.stereotype.Service;
 
 import com.tanuj.WebSocketChatService.model.DTO.MessageDTO;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
 public class MessageService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MessageService.class);
     
     @Autowired 
     private MessageRepository messageRepository;
@@ -66,11 +70,17 @@ public class MessageService {
 
     //Update
     public void markRead(String senderId, String recieverId) {
-        Criteria quetyCriteria = Criteria.where("recieverId").is(recieverId).and("senderId").is(senderId);
-        Query query = new Query(quetyCriteria);
+        try{
+            Criteria quetyCriteria = Criteria.where("recieverId").is(recieverId).and("senderId").is(senderId);
+            Query query = new Query(quetyCriteria);
 
-        Update update = Update.update("state", MessageState.READ);
-        mongoOperations.updateMulti(query, update, Message.class);
+            Update update = Update.update("state", MessageState.READ);
+            mongoOperations.updateMulti(query, update, Message.class);
+        }
+        catch(Exception e){
+            LOGGER.error("Error while marking conversation as read: "+e);
+            throw e;
+        }
     }
 
     //Read
@@ -79,7 +89,15 @@ public class MessageService {
         String coversationId = chatConversationService.createAndGetCoversationId(senderId, recieverId);
         
         markRead(senderId, recieverId);
-        List<Message> messages = messageRepository.findByConversationId(coversationId);
+        
+        List<Message> messages; 
+        try{
+            messages = messageRepository.findByConversationId(coversationId);
+        }
+        catch(Exception e){
+            LOGGER.error("Error while finding messages for conversation: "+e);
+            throw e;
+        }
 
         return messages;
     }
