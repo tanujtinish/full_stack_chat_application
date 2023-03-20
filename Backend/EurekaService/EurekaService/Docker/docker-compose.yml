@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+
+  eureka-server-service:
+    build:
+      context: ../target/
+      dockerfile: ../Docker/Dockerfile
+    image: eureka-server-service:latest
+    container_name: eureka-server-service
+    restart: always
+    ports:
+      - "8761:8761"
+    expose:
+      - 8761
