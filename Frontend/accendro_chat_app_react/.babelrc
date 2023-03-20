@@ -1,0 +1,14 @@
+{
+    "presets": ["@babel/preset-env", "@babel/preset-react"],
+
+    "plugins": [
+        [
+          "css-modules-transform",
+          {
+            "preprocessCss": "./preprocess-css.js",
+            "extensions": [".css", ".scss", ".less"],
+            "generateScopedName": "[name]__[local]___[hash:base64:5]"
+          }
+        ]
+      ]
+}
