@@ -112,7 +112,7 @@ const Login = () => {
   };
 
   return (
-      <div className="form-container sign-in-container">
+      <div className="form-container sign-in-container" data-testid="login-component">
         <Form onSubmit={handleLogin} ref={form}>
           <h1>Sign in</h1>
           <span>or use your account</span>

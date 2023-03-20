@@ -38,7 +38,7 @@ const LoginRegister = (props) => {
     }, []);
     
     return (
-        <div className={classNames} id="container">
+        <div className={classNames} id="container" data-testid="LoginRegister-component">
             <Login/>
             <Register/>
             <div className="overlay-container">

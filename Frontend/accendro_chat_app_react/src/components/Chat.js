@@ -192,7 +192,7 @@ const Chat = () => {
   };
 
   return (
-    <div id="frame">
+    <div id="frame" data-testid="chat-component">
       <div id="sidepanel">
         <div id="profile">
           <div className="wrap">
@@ -252,7 +252,7 @@ const Chat = () => {
           </ul>
         </div>
         <div id="bottom-bar">
-          <button id="addcontact" onClick={() => {
+          <button id="addcontact" data-testid="show-profile-button" onClick={() => {
                 setActiveContact(null);
                 setProfileContact(null);
                 setShowProfile(true);
