@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import "../css/Profile.css";
 
 const Profile = (props) => {
   const { userInfo: userInfo, isLoggedIn: isLoggedIn, jwt_web_token: jwt_web_token} = useSelector((state) => state.UserServiceReducer);
 
+  const [userProfile, setProfile] = useState(props);
   useEffect(() => {
-    if(props===null || props===undefined){
-      props = userInfo;
+    if(userProfile===null || userProfile===undefined){
+      setProfile({id:-1, username:""});
     }
   }, []);
 
@@ -27,17 +28,21 @@ const Profile = (props) => {
           />
         </div>
         <h5 className="card-title">
-          {uppercase(props.userInfo.username)}
+          {uppercase(userProfile.userInfo.username)}
         </h5>
-          <p className="card-text">
-          <strong>Email:</strong> {props.userInfo.email}
+        <div className="card-text">
+          <p>
+            <strong>Email:</strong> {userProfile.userInfo.email}
+          </p>
           <p></p>
-          <strong>Authorities:</strong>
+          <p>
+            <strong>Authorities:</strong>
+          </p>
           <ul>
-            {props.userInfo.roles &&
-              props.userInfo.roles.map((role, index) => <li key={index}>{role}</li>)}
+            {userProfile.userInfo.roles &&
+              userProfile.userInfo.roles.map((role, index) => <li key={index}>{role}</li>)}
           </ul>
-        </p>
+        </div>
       </div>
     </div>
     
