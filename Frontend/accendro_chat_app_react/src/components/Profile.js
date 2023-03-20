@@ -18,7 +18,7 @@ const Profile = (props) => {
 
   return (
     
-    <div className="card">
+    <div className="card" data-testid="profile-component">
       <div className="card-body">
         <div className="avatar">
           <img
