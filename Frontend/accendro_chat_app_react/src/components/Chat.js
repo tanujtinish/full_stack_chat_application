@@ -12,6 +12,8 @@ import {logOutAction} from "../actions/UserServiceActions"
 
 import {get_users_api_call} from "../Utils/UserServiceApiUtils";
 import {count_new_messgaes_api_call} from "../Utils/ChatServiveApiUtils";
+import {create_connection_to_stomp_server} from "../Utils/ChatServiveApiUtils";
+import {send_message_to_stomp_server} from "../Utils/ChatServiveApiUtils";
 
 import Profile from "./Profile";
 
@@ -105,11 +107,8 @@ const Chat = () => {
   };
 
   const connect = () => {
-    const Stomp = require("stompjs");
-    var SockJS = require("sockjs-client");
-    SockJS = new SockJS("http://127.0.0.1:8080/web_socket");
-    stompClient = Stomp.over(SockJS);
-    stompClient.connect({}, onConnected, onError);
+    stompClient = create_connection_to_stomp_server();
+    stompClient && stompClient.connect({}, onConnected, onError);
   };
 
   const navigate = useNavigate();
@@ -184,7 +183,7 @@ const Chat = () => {
         messageString: msg,
         timestamp: new Date(),
       };
-      stompClient.send("/chat_app/chatApp/send", {}, JSON.stringify(message));
+      send_message_to_stomp_server(message);
 
       const newMessages = [...messages];
       newMessages.push(message);
@@ -289,9 +288,9 @@ const Chat = () => {
           <div>
             <ScrollToBottom className="messages">
               <ul>
-                {(messages == null ? [] : messages).map((msg) => (
+                {(messages == null ? [] : messages).map((msg, index) => (
                   <li 
-                  key = {msg.id}
+                  key = {index}
                   className={msg.senderId == userInfo.id ? "sent" : "replies"}>
                     {msg.senderId != userInfo.id && (
                       <img src={activeContact.profilePicture} alt="" />
@@ -318,6 +317,7 @@ const Chat = () => {
                 />
 
                 <Button
+                  data-testid="send-message-button"
                   icon={<i className="fa fa-paper-plane" aria-hidden="true"></i>}
                   onClick={() => {
                     sendMessage(text);
