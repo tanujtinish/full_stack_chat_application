@@ -50,7 +50,7 @@ One to one Chat application built using React Js and Spring Boot
         b) run command: npm run test
 
 
-#Features Added:
+# Features Added:
     
     1. Representing each stack resource as a container/image and being able to run the stack from docker-compose or some other automation.
     
