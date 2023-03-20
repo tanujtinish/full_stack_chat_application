@@ -223,7 +223,7 @@ const Chat = () => {
           </div>
         </div>
         <div id="search" />
-        <div id="contacts">
+        <div id="contacts" data-testid="contacts">
           <ul>
             {(all_users == null ? [] : all_users).map((contact) => (
               <li
@@ -270,9 +270,9 @@ const Chat = () => {
       <div className="content">
         <div className="contact-profile">
           {/* <img src={activeContact && activeContact.profilePicture} alt="" /> */}
-          <p>{!showProfile && activeContact && activeContact.username}</p>
+          <p>{!showProfile && activeContact.id!==-1 && activeContact.username}</p>
           {
-            (!showProfile) 
+            (!showProfile && activeContact.id!==-1) 
             && 
             <button id="addcontact" onClick={() => {
               setProfileContact(activeContact);
