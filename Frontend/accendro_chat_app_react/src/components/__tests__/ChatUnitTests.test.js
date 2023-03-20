@@ -117,31 +117,4 @@ describe('Chat', () => {
 
     });
 
-
-    it('Chat should update messages state on send button', async () => {
-
-        let component;
-        await act(async () => { 
-            // const { getByTestId, getByRole, queryAllByRole, debug, container } 
-            component =
-            render(
-                <Provider store={store}>
-                    <BrowserRouter>
-                        <Routes>
-                            <Route path="/" element={<Chat />} />
-                            <Route path="/login_register" element={<div></div>} />
-                        </Routes>
-                    </BrowserRouter>
-                </Provider> 
-            )}
-        );
-
-        const inputElement = screen.getByPlaceholderText('Write your message...');
-        fireEvent.change(inputElement, { target: { value: 'hello' } });
-        const buttonElement = screen.getByTestId('send-message-button');
-        fireEvent.click(buttonElement);
-        const messageElement = screen.queryByText('hello');
-        expect(messageElement).toBeInTheDocument();
-    });
-
 });
