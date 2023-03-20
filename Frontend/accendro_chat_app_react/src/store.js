@@ -1,19 +1,24 @@
 import {configureStore} from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 import rootReducer from "./reducers";
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
+const persistConfig = {
+  key: 'state',
+  storage,
+};
 const middleware = [thunk];
 
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: persistedReducer,
 });
+export const persistor = persistStore(store);
 
 store.subscribe(() => {
   // get the latest state from the store
   const state = store.getState();
-
-  // save the state to local storage
-  localStorage.setItem('state', JSON.stringify(state));
 });
 
 export default store;
