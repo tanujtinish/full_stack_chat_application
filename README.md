@@ -3,9 +3,13 @@ One to one Chat application built using React Js and Spring Boot
 
 
 # How to run all the services?
-#Steps:
+
+    #Steps:
+    
     1. Clone this repository
+    
     2. Go to root folder full_stack_chat_application
+    
     3. To start all services in one go, run following command:
         
         docker-compose -f docker-compose.yml up -d
