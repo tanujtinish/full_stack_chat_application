@@ -1,4 +1,4 @@
-# full_stack_chat_application
+# full_stack_chat_application (Practical for Accendero Software Inc)
 One to one Chat application built using React Js and Spring Boot
 
 
