@@ -6,7 +6,6 @@ import {get_messages_api_call} from "../Utils/ChatServiveApiUtils"
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import LoadingOverlay from 'react-loading-overlay';
 
 import {logOutAction} from "../actions/UserServiceActions"
 
@@ -183,7 +182,7 @@ const Chat = () => {
         messageString: msg,
         timestamp: new Date(),
       };
-      send_message_to_stomp_server(message);
+      send_message_to_stomp_server(message, stompClient);
 
       const newMessages = [...messages];
       newMessages.push(message);
@@ -285,48 +284,53 @@ const Chat = () => {
         (showProfile) ? 
           <Profile userInfo = {profileContact ? profileContact : userInfo}/> 
             :
-          <div>
-            <ScrollToBottom className="messages">
-              <ul>
-                {(messages == null ? [] : messages).map((msg, index) => (
-                  <li 
-                  key = {index}
-                  className={msg.senderId == userInfo.id ? "sent" : "replies"}>
-                    {msg.senderId != userInfo.id && (
-                      <img src={activeContact.profilePicture} alt="" />
-                    )}
-                    <p>{msg.messageString}</p>
-                  </li>
-                ))}
-              </ul> 
-            </ScrollToBottom>
-            <div className="message-input">
-              <div className="wrap">
-                <input
-                  name="user_input"
-                  size="large"
-                  placeholder="Write your message..."
-                  value={text}
-                  onChange={(event) => setText(event.target.value)}
-                  onKeyPress={(event) => {
-                    if (event.key === "Enter") {
+          (
+            (all_users === null || all_users === undefined || all_users.length ==0 || activeContact.id == -1) ? 
+            <p> No users Found to Chat</p>
+            :
+            <div>
+              <ScrollToBottom className="messages">
+                <ul>
+                  {(messages == null ? [] : messages).map((msg, index) => (
+                    <li 
+                    key = {index}
+                    className={msg.senderId == userInfo.id ? "sent" : "replies"}>
+                      {msg.senderId != userInfo.id && (
+                        <img src={activeContact.profilePicture} alt="" />
+                      )}
+                      <p>{msg.messageString}</p>
+                    </li>
+                  ))}
+                </ul> 
+              </ScrollToBottom>
+              <div className="message-input">
+                <div className="wrap">
+                  <input
+                    name="user_input"
+                    size="large"
+                    placeholder="Write your message..."
+                    value={text}
+                    onChange={(event) => setText(event.target.value)}
+                    onKeyPress={(event) => {
+                      if (event.key === "Enter") {
+                        sendMessage(text);
+                        setText("");
+                      }
+                    }}
+                  />
+
+                  <Button
+                    data-testid="send-message-button"
+                    icon={<i className="fa fa-paper-plane" aria-hidden="true"></i>}
+                    onClick={() => {
                       sendMessage(text);
                       setText("");
-                    }
-                  }}
-                />
-
-                <Button
-                  data-testid="send-message-button"
-                  icon={<i className="fa fa-paper-plane" aria-hidden="true"></i>}
-                  onClick={() => {
-                    sendMessage(text);
-                    setText("");
-                  }}
-                />
+                    }}
+                  />
+                </div>
               </div>
             </div>
-          </div>
+          )
         }
       </div>
     </div>

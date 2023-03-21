@@ -36,7 +36,7 @@ export function create_connection_to_stomp_server(){
   return stompClient;
 }
 
-export function send_message_to_stomp_server(message){
+export function send_message_to_stomp_server(message, stompClient){
   
   stompClient.send("/chat_app/chatApp/send", {}, JSON.stringify(message));
 
