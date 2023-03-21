@@ -12,6 +12,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import com.tanuj.WebSocketChatService.service.MessageService;
+import com.tanuj.WebSocketChatService.service.UserServiceFeignClient;
 
 import java.util.List;
 
@@ -31,6 +32,9 @@ public class WebSocketChatController {
 
     @Autowired 
     private SimpMessagingTemplate simpMessagingTemplate;
+
+    @Autowired 
+    UserServiceFeignClient userServiceFeignClient;
 
     @MessageMapping("/chatApp/send")
     public void sendMessage(@Payload MessageDTO messageDTO) {
@@ -80,6 +84,13 @@ public class WebSocketChatController {
                 return ResponseEntity.badRequest().body("Error in controller findChatMessages is: "+e);
             }
             return ResponseEntity.ok(messages);
+    }
+
+    @GetMapping("/getUsers/{userId}")
+    public ResponseEntity<?> findAll(@PathVariable String userId) {
+
+        userServiceFeignClient.findAll();
+        return ResponseEntity.ok("messages");
     }
 
 }
