@@ -9,3 +9,10 @@ spring:
       port: 27018
       username: user
       password: pass
+  application:
+    name: spring-cloud-eureka-feign-client  
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
