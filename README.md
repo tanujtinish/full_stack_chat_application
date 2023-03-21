@@ -33,6 +33,10 @@ One to one Chat application built using React Js and Spring Boot
         
             docker-compose -f ./Frontend/accendro_chat_app_react/Docker/docker-compose.yml up -d
 
+    5. Open URL http://localhost:3000/login_register to access web app chat application. 
+    
+PS: Please signup atleast 2 different accounts to be able to chat in application
+
 
 # How to run tests:
 
@@ -144,3 +148,24 @@ One to one Chat application built using React Js and Spring Boot
 # References:
 
     1. https://spring.io/guides/gs/service-registration-and-discovery/
+
+    2. https://www.baeldung.com/spring-cloud-openfeign
+    
+    3. https://stackoverflow.com/questions/73947252/noclassdeffounderror-nestedioexception-when-running-tests-with-spring-boot-3-0
+
+    4. https://blog.bitsrc.io/understanding-the-differences-between-unit-tests-and-integration-tests-in-react-component-8e51a1c8aa93
+
+    5. https://stackoverflow.com/questions/53089122/issue-with-babel-jest-dependency-when-running-npm-start-in-a-react-app
+
+    6. https://stackoverflow.com/questions/43500235/jest-mock-a-function-called-inside-a-react-component
+
+    7. https://www.30secondsofcode.org/articles/s/testing-async-react-components/
+
+    8. https://waresix.engineering/testing-your-react-component-with-react-testing-library-e40062abaf36
+
+    9. https://www.bezkoder.com/react-redux-jwt-auth/
+
+    10. https://www.baeldung.com/spring-boot-testing
+    
+    11. https://docs.spring.io/spring-security/reference/servlet/authentication/architecture.html
+
