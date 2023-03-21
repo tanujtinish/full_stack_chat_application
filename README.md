@@ -171,3 +171,24 @@ PSS: Also, it may takes around 80-90 seconds for docker-compose to run all conta
     
     11. https://docs.spring.io/spring-security/reference/servlet/authentication/architecture.html
 
+
+# Application Design:
+
+    Login Page
+    <img width="587" alt="Screen Shot 2023-03-21 at 8 02 22 AM" src="https://user-images.githubusercontent.com/25569289/226649426-48b61998-a55b-4b8c-9206-5148dbd3e340.png">
+
+    
+    Sign Up Page
+    <img width="587" alt="Screen Shot 2023-03-21 at 8 02 22 AM" src="https://user-images.githubusercontent.com/25569289/226649472-cc8a8ecf-8ea0-4bd3-abd9-6cf041d2e38f.png">
+
+    
+    Chat Page
+    <img width="1402" alt="Screen Shot 2023-03-21 at 8 04 15 AM" src="https://user-images.githubusercontent.com/25569289/226649511-b062fee6-6948-4257-ab17-97683af7183e.png">
+    
+    
+    Chat Page Notification
+    <img width="1440" alt="Screen Shot 2023-03-21 at 8 04 01 AM" src="https://user-images.githubusercontent.com/25569289/226649656-e67c7a38-b2fd-4054-9f28-22ad7a8be7e7.png">
+
+
+    Profile on Chat
+    <img width="1395" alt="Screen Shot 2023-03-21 at 8 04 25 AM" src="https://user-images.githubusercontent.com/25569289/226649549-3ef57aea-ebcf-42de-8314-ae44d206ae89.png">
