@@ -10,11 +10,11 @@ One to one Chat application built using React Js and Spring Boot
     
     2. Go to root folder full_stack_chat_application
     
-    3. To start all services in one go, run following command:
+    3. To start all services in one go, run following command: (recommended over ste 4)
         
         docker-compose -f docker-compose.yml up -d
 
-    4. To start individual services, run following command:
+    4. To start individual services, run following command:  (Ignore this step if you use step 3)
 
         #3.1 Backend Eureka Srvice service: 
         
@@ -37,7 +37,8 @@ One to one Chat application built using React Js and Spring Boot
     
 PS: Please signup atleast 2 different accounts to be able to chat in application
 
-PSS: Also, it may takes around 80-90 seconds for docker-compose to run all containers. Please wait for sometime for "http://localhost:3000/login_register" to run on browser after docker-compose is run.
+PSS: Also, it may takes around 80-90 seconds for docker-compose to run all containers. Please wait for sometime after running docker-compose.
+If you try to access "http://localhost:3000/login_register" on browser soon after running docker-compose, web app might take some time to show up depending on how long it takes for containers to start running.
 
 
 # How to run tests:
@@ -173,6 +174,8 @@ PSS: Also, it may takes around 80-90 seconds for docker-compose to run all conta
 
 
 # Application Design:
+
+    Images are uploaded inside images folder
 
     Login Page
 ![My Image](images/LogIn.png)
