@@ -17,7 +17,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isLoggedIn: false,
-        userInfo: null,
+        userInfo: {id:-1, username:""},
         jwt_web_token: "",
       };
     default:
