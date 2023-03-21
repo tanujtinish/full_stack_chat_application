@@ -37,6 +37,8 @@ One to one Chat application built using React Js and Spring Boot
     
 PS: Please signup atleast 2 different accounts to be able to chat in application
 
+PSS: Also, it may takes around 80-90 seconds for docker-compose to run all containers. Please wait for sometime for "http://localhost:3000/login_register" to run on browser after docker-compose is run.
+
 
 # How to run tests:
 
