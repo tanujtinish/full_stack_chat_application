@@ -6,6 +6,8 @@ services:
       dockerfile: ./Docker/Dockerfile
     ports:
       - "3000:3000"
+    networks:
+      - accendro_bridge
   
   eureka-server-service:
     build:
@@ -13,17 +15,31 @@ services:
       dockerfile: ../Docker/Dockerfile
     image: eureka-server-service:latest
     container_name: eureka-server-service
+    hostname: eureka-server-service
     restart: always
     ports:
       - "8761:8761"
     expose:
       - 8761
+    networks:
+      - accendro_bridge
 
   websocket-chat-service:
     build:
       context: ./Backend/WebSocketChatService/WebSocketChatService/target/
       dockerfile: ../Docker/Dockerfile
     image: websocket-chat-service:latest
+    environment: 
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE= http://eureka-server-service:8761/eureka/
+      - MONGODB_URI= mongodb://mongodb:27017/admin
+      - SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE=admin
+      - SPRING_DATA_MONGODB_AUTO_INDEX_CREATION=true
+      - SPRING_DATA_MONGODB_HOST=mongodb
+      - SPRING_DATA_MONGODB_PORT=27017
+      - SPRING_DATA_MONGODB_USERNAME=user
+      - SPRING_DATA_MONGODB_PASSWORD=pass
+      - SPRING_DATA_MONGODB_DATABASE=admin
+      - WAIT_HOSTS= mongodb:27017
     container_name: websocket-chat-service
     restart: always
     ports:
@@ -32,20 +48,28 @@ services:
       - 8080
     depends_on:
       - mongodb
+    networks:
+      - accendro_bridge
 
   mongodb:
     image: mongo
     container_name: mongodb
+    hostname: mongodb
     restart: always
     ports:
-      - 27018:27017
+      - 27017:27017
     volumes:
       - ./data:/data/db
     environment:
       - MONGO_INITDB_ROOT_USERNAME=user
       - MONGO_INITDB_ROOT_PASSWORD=pass
+      - MONGO_INITDB_DATABASE=admin
+      - MONGO_DB_USERNAME=user
+      - MONGO_DB_PASSWORD=pass
     expose:
-      - 27018
+      - 27017
+    networks:
+      - accendro_bridge
     command: --quiet
 
   mongo-express:
@@ -58,16 +82,26 @@ services:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=user
       - ME_CONFIG_MONGODB_ADMINPASSWORD=pass
       - ME_CONFIG_MONGODB_SERVER=mongodb
-
+    networks:
+      - accendro_bridge
 
   authentication-chat-service:
     build:
       context: ./Backend/UsersService/UserService/target/
       dockerfile: ../Docker/Dockerfile
     image: authentication-chat-service:latest
+    environment: 
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE= http://eureka-server-service:8761/eureka/
     container_name: authentication-chat-service
     restart: always
     ports:
       - "8081:8081"
     expose:
       - 8081
+    networks:
+      - accendro_bridge
+
+networks:
+  accendro_bridge:
+    external: false
+    name: accendro_bridge
