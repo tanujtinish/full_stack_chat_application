@@ -6,3 +6,10 @@ services:
       dockerfile: ./Docker/Dockerfile
     ports:
       - "3000:3000"
+    networks:
+      - accendro_bridge
+
+networks:
+  accendro_bridge:
+    external: false
+    name: accendro_bridge
