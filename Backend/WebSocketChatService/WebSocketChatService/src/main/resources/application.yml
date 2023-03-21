@@ -6,7 +6,7 @@ spring:
   data:
     mongodb:
       database: admin
-      port: 27018
+      port: 27017
       username: user
       password: pass
   application:
