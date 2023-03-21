@@ -10,7 +10,10 @@
     "antd": "*",
     "axios": "*",
     "bootstrap": "*",
+    "bufferutil": "^4.0.7",
+    "https-browserify": "^1.0.0",
     "net": "^1.0.2",
+    "node-polyfill-webpack-plugin": "^2.0.1",
     "react": "*",
     "react-dom": "*",
     "react-redux": "*",
@@ -23,8 +26,12 @@
     "redux-persist": "*",
     "sockjs-client": "*",
     "stompjs": "*",
+    "utf-8-validate": "^5.0.10",
+    "util": "^0.12.5",
     "validator": "*",
-    "web-vitals": "*"
+    "web-vitals": "*",
+    "websocket": "^1.0.34",
+    "ws": "^8.13.0"
   },
   "scripts": {
     "start": "react-scripts start",
