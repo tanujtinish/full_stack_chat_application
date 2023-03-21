@@ -190,7 +190,7 @@ If you try to access "http://localhost:3000/login_register" on browser soon afte
     
     
     Chat Page Notification
-![My Image](images/ProfileOnChat.png)
+![My Image](images/Notifications.png)
 
 
     Profile on Chat
