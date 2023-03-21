@@ -15,16 +15,21 @@ One to one Chat application built using React Js and Spring Boot
         docker-compose -f docker-compose.yml up -d
 
     4. To start individual services, run following command:
+
+        #3.1 Backend Eureka Srvice service: 
         
-        #3.1 Backend service 1 aka WebSocketChatService: 
+            docker-compose -f ./Backend/EurekaService/EurekaService/Docker/docker-compose.yml up -d
+        
+        #3.2 Backend service 1 aka WebSocketChatService: 
         
             docker-compose -f ./Backend/WebSocketChatService/WebSocketChatService/Docker/docker-compose.yml up -d
 
-        #3.2 Backend service 2 aka UserService: 
+        #3.3 Backend service 2 aka UserService: 
         
             docker-compose -f ./Backend/UsersService/UserService/Docker/docker-compose.yml up -d
+        
 
-        #3.3 Frontend react service: 
+        #3.4 Frontend react service: 
         
             docker-compose -f ./Frontend/accendro_chat_app_react/Docker/docker-compose.yml up -d
 
@@ -135,3 +140,7 @@ One to one Chat application built using React Js and Spring Boot
 
         # To Run This Service, type:
         docker-compose -f ./Backend/UsersService/UserService/Docker/docker-compose.yml up -d
+
+# References:
+
+    1. https://spring.io/guides/gs/service-registration-and-discovery/

@@ -9,7 +9,7 @@ services:
   
   eureka-server-service:
     build:
-      context: ../target/
+      context: ./Backend/EurekaService/EurekaService/target/
       dockerfile: ../Docker/Dockerfile
     image: eureka-server-service:latest
     container_name: eureka-server-service
@@ -18,7 +18,7 @@ services:
       - "8761:8761"
     expose:
       - 8761
-      
+
   websocket-chat-service:
     build:
       context: ./Backend/WebSocketChatService/WebSocketChatService/target/
