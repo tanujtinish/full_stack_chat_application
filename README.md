@@ -175,20 +175,20 @@ PSS: Also, it may takes around 80-90 seconds for docker-compose to run all conta
 # Application Design:
 
     Login Page
-    ![My Image](images/LogIn.png)
+![My Image](images/LogIn.png)
 
     
     Sign Up Page
-    ![My Image](images/SignUp.png)
+![My Image](images/SignUp.png)
 
     
     Chat Page
-    ![My Image](images/Chat.png)
+![My Image](images/Chat.png)
     
     
     Chat Page Notification
-    ![My Image](images/ProfileOnChat.png)
+![My Image](images/ProfileOnChat.png)
 
 
     Profile on Chat
-    ![My Image](images/ProfileOnChat.png)
+![My Image](images/ProfileOnChat.png)
